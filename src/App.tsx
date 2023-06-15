@@ -13,8 +13,8 @@ const AppContainer = styled.div`
 
   @media screen and (max-width: 48rem) {
     // 768px / 16px = 48rem
-    /* flex-direction: column-reverse; */
-    flex-direction: column;
+    flex-direction: column-reverse;
+    /* flex-direction: column; */
   }
 `;
 
@@ -39,17 +39,17 @@ const CenteredLayoutContent = styled.div`
 
 const Panel = styled.div`
   flex: 1;
-  padding: 1rem; // 20px / 16px = 1.25rem
+  padding: 0.25rem; // 20px / 16px = 1.25rem
 `;
 
 const ListPanel = styled(Panel)`
-  background-color: #eee;
-min-width: 15rem ;
+  background-color: #fff;
+  min-width: 20rem;
 `;
 
 const DetailsPanel = styled(Panel)`
-  background-color: #f5f5f5;
-  min-width: 15rem ;
+  background-color: #fff;
+  min-width: 20rem;
 `;
 
 const Header = styled.header`
@@ -156,16 +156,13 @@ export function App() {
   return (
     <CenteredLayoutContent>
       <AppContainer>
-        {/* <CenteredLayoutContainer> */}
-        <Menu />
-        {/* <FlexRow></FlexRow> */}
+        {/* <Menu /> */}
         <ListPanel>
           <List />
         </ListPanel>
         <DetailsPanel>
           <Details />
         </DetailsPanel>
-        {/* </CenteredLayoutContainer> */}
       </AppContainer>
     </CenteredLayoutContent>
   );

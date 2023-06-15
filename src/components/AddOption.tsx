@@ -14,11 +14,22 @@ interface OptionAddForm extends HTMLFormElement {
 }
 
 const AddOptionForm = styled.form`
-    margin-top: 1rem ;
-`
+  margin-top: 1rem;
+`;
+const AddOptionButton = styled.button`
+  font-weight: bold;
+  border: solid 0.0625rem #6b737b;
+  color: #333;
+  line-height: 1.5rem;
+
+  margin: 0.25rem;
+`;
 const AddOptionInput = styled.input`
-    margin: 0.25rem ;
-`
+  margin: 0.25rem;
+  line-height: 2.25rem;
+  min-width: 13rem;
+  font-size: 1rem;
+`;
 
 export function AddOption() {
   const { addOption } = useURL();
@@ -27,7 +38,7 @@ export function AddOption() {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    const inputValue = event.currentTarget.value?.trim();
+    const inputValue = event.currentTarget.value?.trim() || '';
     if (inputValue) {
       setNewOption(inputValue);
     }
@@ -35,7 +46,7 @@ export function AddOption() {
 
   const handleAddOption = (event: FormEvent<OptionAddForm>) => {
     event.preventDefault();
-    addOption(newOption);
+    addOption(encodeURIComponent(newOption));
     if (refOptionInput.current) {
       refOptionInput.current?.focus();
     }
@@ -54,9 +65,9 @@ export function AddOption() {
           ref={refOptionInput}
           type='text'
           onChange={handleChange}
-          placeholder='Add an option...'
+          placeholder='Add a choice...'
         />
-        <button type='submit'>+</button>
+        <AddOptionButton type='submit'>+</AddOptionButton>
       </AddOptionForm>
     </>
   );
