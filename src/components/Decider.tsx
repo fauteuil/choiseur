@@ -23,7 +23,7 @@ export default function Decider() {
 
   const rgba = randomRgba(0.5);
 
-  const reviewer = "DH";
+  // const reviewer = "DH";
 
   return (
     <div className="App">

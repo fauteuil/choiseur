@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import {
   MouseEvent,
-  MouseEventHandler,
   useCallback,
-  useEffect,
   useMemo,
 } from 'react';
 
