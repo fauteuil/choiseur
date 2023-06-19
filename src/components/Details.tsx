@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useURL } from '../hooks/useURL';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { randomInt } from '@dmhtoo/random-int';
 import randomRgba from 'random-rgba';
 import { useState } from 'react';
@@ -20,7 +20,7 @@ const OptionStyled = styled.div<StylableProps>`
   border-radius: 0.75rem;
   border: 0.25rem solid ${randomRgba(97)};
   font-size: 2rem;
-  font-weight:bold ;
+  font-weight: bold;
   height: 7rem;
   line-height: 3rem;
   margin-top: 0.5rem;
@@ -49,17 +49,18 @@ const ShuffleButton = styled.button`
   border: 0.125rem solid #eee;
 `;
 
-const defaultOption = '(Add a choice...)';
+const DEFAULT_TEXT = {
+  addChoice: '(Add a choice...)',
+  needs2Choices: '(Add ONE more choice...)',
+  makeAChoice: '(Click Choose...)',
+};
 
 export function Details() {
+  const [selectedOption, setSelectedOption] = useState(DEFAULT_TEXT.makeAChoice);
   const [randomIndex, setRandomIndex] = useState(0);
   const [randomColor, setRandomColor] = useState(randomRgba(37));
 
   const { options } = useURL();
-
-  // const shuffle = useCallback(() => {
-  //   setRandomIndex(randomInt(0, options.length - 1));
-  // }, [options.length]);
 
   const shuffle = () => {
     setRandomIndex(randomInt(0, options.length - 1));
@@ -68,15 +69,25 @@ export function Details() {
 
   const handleShuffle = () => {
     shuffle();
+    setSelectedOption(choice);
   };
 
-  useEffect(() => {
-    shuffle();
-  }, []);
+  const choice = useMemo(
+    () =>
+      decodeURIComponent(
+        options.length === 0
+          ? DEFAULT_TEXT.addChoice
+          : options?.length === 1
+          ? DEFAULT_TEXT.needs2Choices
+          : options[randomIndex]
+      ),
+    [options, randomIndex]
+  );
 
-  const selectedOption = useMemo(()=>decodeURIComponent(
-    options?.length ? options[randomIndex] : defaultOption
-  ),[options, randomIndex]);
+  // TODO: don't show a default choice
+  // useEffect(() => {
+  //   setSelectedOption(choice);
+  // }, [choice]);
 
   return (
     <>
