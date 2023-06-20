@@ -16,61 +16,51 @@ const OptionWrapper = styled.div`
 `;
 
 const OptionStyled = styled.div<StylableProps>`
+  /* display: flex; */
+  /* overflow: hidden; */
+  /* padding: 3.5rem 1rem; */
+  /* text-wrap: nowrap; */
+  align-content: center;
   background-color: ${(props) => props.bgColor};
   border-radius: 0.75rem;
   border: 0.25rem solid ${randomRgba(97)};
+  cursor: pointer;
+  flex-wrap: wrap;
   font-size: 2rem;
   font-weight: bold;
-  height: 7rem;
+  height: 10rem;
+  justify-content: center;
   line-height: 3rem;
   margin-top: 0.5rem;
-  /* overflow: hidden; */
   overflow: scroll;
-  /* padding: 3.5rem 1rem; */
   padding: 1rem;
   text-align: center;
   text-overflow: ellipsis;
   width: 17rem;
-  /* text-wrap: nowrap; */
-  /* display: flex; */
-  justify-content: center;
-  align-content: center;
-  flex-wrap: wrap;
 `;
 
-const ShuffleButton = styled.button`
-  background-color: #6b737b;
-  cursor: pointer;
-  color: #fff;
-  font-weight: bold;
-  padding-left: 1rem;
-  margin-top: 1rem;
-  border-radius: 1rem;
-  border: 0.125rem solid #eee;
-`;
+// const ShuffleButton = styled.button`
+//   background-color: #6b737b;
+//   cursor: pointer;
+//   color: #fff;
+//   font-weight: bold;
+//   padding-left: 1rem;
+//   margin-top: 1rem;
+//   border-radius: 1rem;
+//   border: 0.125rem solid #eee;
+// `;
 
 const DEFAULT_TEXT = {
-  addChoice: '(Add a choice...)',
-  needs2Choices: '(Add ONE more choice...)',
-  makeAChoice: '(Click Choose...)',
+  addChoice: '(Add 2 or more choices...)',
+  instructions: 'And the choice is...',
+  makeAChoice: '(Click to Choose...)',
+  needs2Choices: '(Add 1 more choice...)',
 };
 
 export function Details() {
-  const [selectedOption, setSelectedOption] = useState(DEFAULT_TEXT.makeAChoice);
+  const { options } = useURL();
   const [randomIndex, setRandomIndex] = useState(0);
   const [randomColor, setRandomColor] = useState(randomRgba(37));
-
-  const { options } = useURL();
-
-  const shuffle = () => {
-    setRandomIndex(randomInt(0, options.length - 1));
-    setRandomColor(randomRgba(37));
-  };
-
-  const handleShuffle = () => {
-    shuffle();
-    setSelectedOption(choice);
-  };
 
   const choice = useMemo(
     () =>
@@ -84,19 +74,26 @@ export function Details() {
     [options, randomIndex]
   );
 
-  // TODO: don't show a default choice
-  // useEffect(() => {
-  //   setSelectedOption(choice);
-  // }, [choice]);
+  const [selectedOption, setSelectedOption] = useState(options.length > 1 ? DEFAULT_TEXT.makeAChoice : choice);
+
+  const shuffle = () => {
+    setRandomIndex(randomInt(0, options.length - 1));
+    setRandomColor(randomRgba(37));
+  };
+
+  const handleShuffle = () => {
+    shuffle();
+    setSelectedOption(choice);
+  };
 
   return (
     <>
       <OptionWrapper>
-        <div>And the choice is...</div>
-        <OptionStyled bgColor={randomColor} title={selectedOption}>
+        <div>{DEFAULT_TEXT.instructions}</div>
+        <OptionStyled bgColor={randomColor} title={DEFAULT_TEXT.makeAChoice} onClick={handleShuffle}>
           {selectedOption}
         </OptionStyled>
-        <ShuffleButton onClick={handleShuffle}>Choose...</ShuffleButton>
+        {/* <ShuffleButton onClick={handleShuffle}>Choose...</ShuffleButton> */}
       </OptionWrapper>
     </>
   );
