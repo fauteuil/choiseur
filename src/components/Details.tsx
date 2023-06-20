@@ -15,20 +15,30 @@ const OptionWrapper = styled.div`
   padding: 0.5rem;
 `;
 
+const OptionWrappable = styled.span`
+    white-space: break-spaces;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const OptionStyled = styled.div<StylableProps>`
+  -webkit-align-items: center;
   /* display: flex; */
   /* overflow: hidden; */
   /* padding: 3.5rem 1rem; */
   /* text-wrap: nowrap; */
   align-content: center;
+  align-items: center;
   background-color: ${(props) => props.bgColor};
   border-radius: 0.75rem;
   border: 0.25rem solid ${randomRgba(97)};
   cursor: pointer;
+  display: flex;
   flex-wrap: wrap;
   font-size: 2rem;
   font-weight: bold;
   height: 10rem;
+  justify-content: center;
   justify-content: center;
   line-height: 3rem;
   margin-top: 0.5rem;
@@ -91,7 +101,9 @@ export function Details() {
       <OptionWrapper>
         <div>{DEFAULT_TEXT.instructions}</div>
         <OptionStyled bgColor={randomColor} title={DEFAULT_TEXT.makeAChoice} onClick={handleShuffle}>
-          {selectedOption}
+          <OptionWrappable>
+            {selectedOption}
+          </OptionWrappable>
         </OptionStyled>
         {/* <ShuffleButton onClick={handleShuffle}>Choose...</ShuffleButton> */}
       </OptionWrapper>
