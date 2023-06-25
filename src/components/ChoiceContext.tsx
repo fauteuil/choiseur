@@ -69,10 +69,11 @@ export type ChoiceCountMap = Map<string, number>;
 //   return choiceId;
 // };
 const clickTimestampReducer = (
-  // timestampReducerState: number,
+  timestampReducerState: number,
   timestamp: number
 ) => {
-  return timestamp;
+  timestampReducerState = timestamp;
+  return timestampReducerState;
 };
 
 // const countMapReducer = (state:ChoiceCounter[], choiceId:string) => {
