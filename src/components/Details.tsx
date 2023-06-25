@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { useURL } from '../hooks/useURL';
-import { useMemo } from 'react';
+import { MouseEvent, useContext, useMemo } from 'react';
 import { randomInt } from '@dmhtoo/random-int';
 import randomRgba from 'random-rgba';
 import { useState } from 'react';
+import { ChoiceContext } from './ChoiceContext';
 
 interface StylableProps {
   bgColor: string;
@@ -16,7 +17,7 @@ const OptionWrapper = styled.div`
 `;
 
 const OptionWrappable = styled.span`
-    white-space: break-spaces;
+  white-space: break-spaces;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
@@ -63,7 +64,7 @@ const OptionStyled = styled.div<StylableProps>`
 const DEFAULT_TEXT = {
   addChoice: '(Add 2 or more choices...)',
   instructions: 'And the choice is...',
-  makeAChoice: '(Click to Choose...)',
+  makeAChoice: '(Click HERE to Choose...)',
   needs2Choices: '(Add 1 more choice...)',
 };
 
@@ -71,6 +72,10 @@ export function Details() {
   const { options } = useURL();
   const [randomIndex, setRandomIndex] = useState(0);
   const [randomColor, setRandomColor] = useState(randomRgba(37));
+
+  const { incrementChoiceCount, setClickTimestamp } = useContext(ChoiceContext);
+
+// const hi = choiceCount;
 
   const choice = useMemo(
     () =>
@@ -84,26 +89,35 @@ export function Details() {
     [options, randomIndex]
   );
 
-  const [selectedOption, setSelectedOption] = useState(options.length > 1 ? DEFAULT_TEXT.makeAChoice : choice);
+  const [selectedOption, setSelectedOption] = useState(
+    options.length > 1 ? DEFAULT_TEXT.makeAChoice : choice
+  );
 
   const shuffle = () => {
     setRandomIndex(randomInt(0, options.length - 1));
     setRandomColor(randomRgba(37));
   };
 
-  const handleShuffle = () => {
+  const handleShuffle = (event: MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
     shuffle();
+    setClickTimestamp(new Date().getTime())
     setSelectedOption(choice);
+    incrementChoiceCount(choice);
+    // setCurrentChoice(choice);
   };
 
   return (
     <>
       <OptionWrapper>
         <div>{DEFAULT_TEXT.instructions}</div>
-        <OptionStyled bgColor={randomColor} title={DEFAULT_TEXT.makeAChoice} onClick={handleShuffle}>
-          <OptionWrappable>
-            {selectedOption}
-          </OptionWrappable>
+        <OptionStyled
+          bgColor={randomColor}
+          title={DEFAULT_TEXT.makeAChoice}
+          onClick={handleShuffle}
+        >
+          <OptionWrappable>{selectedOption}</OptionWrappable>
         </OptionStyled>
         {/* <ShuffleButton onClick={handleShuffle}>Choose...</ShuffleButton> */}
       </OptionWrapper>

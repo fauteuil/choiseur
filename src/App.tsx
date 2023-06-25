@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { List } from './components/List';
 import { Details } from './components/Details';
+import { ChoiceProvider } from './components/ChoiceContext';
 // import { CenteredLayoutContainer, CenteredLayoutContent } from './components/CenteredLayoutContainer';
 
 const AppContainer = styled.div`
@@ -151,16 +152,18 @@ const DetailsPanel = styled(Panel)`
 
 export function App() {
   return (
-    <CenteredLayoutContent>
-      <AppContainer>
-        {/* <Menu /> */}
-        <ListPanel>
-          <List />
-        </ListPanel>
-        <DetailsPanel>
-          <Details />
-        </DetailsPanel>
-      </AppContainer>
-    </CenteredLayoutContent>
+    <ChoiceProvider>
+      <CenteredLayoutContent>
+        <AppContainer>
+          {/* <Menu /> */}
+          <ListPanel>
+            <List />
+          </ListPanel>
+          <DetailsPanel>
+            <Details />
+          </DetailsPanel>
+        </AppContainer>
+      </CenteredLayoutContent>
+    </ChoiceProvider>
   );
 }
