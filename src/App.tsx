@@ -48,6 +48,8 @@ const ListPanel = styled(Panel)`
 const DetailsPanel = styled(Panel)`
   background-color: #fff;
   min-width: 20rem;
+  display: flex;
+  justify-content: center;
 `;
 
 // const Header = styled.header`

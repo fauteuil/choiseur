@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { useURL } from '../hooks/useURL';
 import { MouseEvent, useContext, useMemo } from 'react';
 import { randomInt } from '@dmhtoo/random-int';
@@ -8,6 +8,8 @@ import { ChoiceContext } from './ChoiceContext';
 
 interface StylableProps {
   bgColor: string;
+  // choosingTimeout: number;
+  isChoosing?: boolean;
 }
 
 const OptionWrapper = styled.div`
@@ -22,6 +24,24 @@ const OptionWrappable = styled.span`
   text-overflow: ellipsis;
 `;
 
+// animation: ${rotationKeyframes} 3s infinite;
+// transform: rotate(30deg);
+// opacity: .7;
+// }
+
+const rotationKeyframes = keyframes`
+0% {
+  transform: rotate(0);
+}
+50% {
+  transform: rotate(179deg) scale(1.1);
+  /* filter: blur(25%) ; */
+}
+100% {
+  transform: rotate(353deg);
+}
+`;
+
 const OptionStyled = styled.div<StylableProps>`
   -webkit-align-items: center;
   /* display: flex; */
@@ -30,6 +50,13 @@ const OptionStyled = styled.div<StylableProps>`
   /* text-wrap: nowrap; */
   align-content: center;
   align-items: center;
+  animation: ${(props) =>
+    // props.isChoosing ? css`${rotationKeyframes} ${props.choosingTimeout / 1000}s infinite` : 'none'};
+    props.isChoosing
+      ? css`
+          ${rotationKeyframes} .5s ease-in-out infinite
+        `
+      : 'none'};
   background-color: ${(props) => props.bgColor};
   border-radius: 0.75rem;
   border: 0.25rem solid ${randomRgba(97)};
@@ -38,7 +65,8 @@ const OptionStyled = styled.div<StylableProps>`
   flex-wrap: wrap;
   font-size: 2rem;
   font-weight: bold;
-  height: 10rem;
+  /* height: 10rem; */
+  height: 15rem;
   justify-content: center;
   justify-content: center;
   line-height: 3rem;
@@ -47,7 +75,8 @@ const OptionStyled = styled.div<StylableProps>`
   padding: 1rem;
   text-align: center;
   text-overflow: ellipsis;
-  width: 17rem;
+  /* width: 17rem; */
+  width: 15rem;
 `;
 
 // const ShuffleButton = styled.button`
@@ -64,20 +93,23 @@ const OptionStyled = styled.div<StylableProps>`
 const DEFAULT_TEXT = {
   addChoice: '(Add 2 or more choices...)',
   instructions: 'And the choice is...',
-  makeAChoice: '(Click HERE to Choose...)',
+  makeAChoice: '(Choose...)',
   needs2Choices: '(Add 1 more choice...)',
 };
 
 export function Details() {
   const { options } = useURL();
+  // const choosingTimeout = randomInt(500, 2000);
   const [randomIndex, setRandomIndex] = useState(0);
+  // const [choosingTimeout, setChoosingTimeout] = useState(0);
+  const [isChoosing, setIsChoosing] = useState(false);
   const [randomColor, setRandomColor] = useState(randomRgba(37));
 
   const { incrementChoiceCount, setClickTimestamp } = useContext(ChoiceContext);
 
-// const hi = choiceCount;
+  // const hi = choiceCount;
 
-  const choice = useMemo(
+  const currentChoice = useMemo(
     () =>
       decodeURIComponent(
         options.length === 0
@@ -90,34 +122,42 @@ export function Details() {
   );
 
   const [selectedOption, setSelectedOption] = useState(
-    options.length > 1 ? DEFAULT_TEXT.makeAChoice : choice
+    options.length > 1 ? DEFAULT_TEXT.makeAChoice : currentChoice
   );
 
   const shuffle = () => {
+    // setChoosingTimeout(randomInt(500, 2000));
+    setIsChoosing(true);
     setRandomIndex(randomInt(0, options.length - 1));
     setRandomColor(randomRgba(37));
   };
 
-  const handleShuffle = (event: MouseEvent<HTMLDivElement>) => {
+  const handleShuffle = async (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.stopPropagation();
     shuffle();
-    setClickTimestamp(new Date().getTime())
-    setSelectedOption(choice);
-    incrementChoiceCount(choice);
+    await setTimeout(() => {
+      setIsChoosing(false);
+      // }, choosingTimeout);
+    }, 500);
+    setClickTimestamp(new Date().getTime());
+    setSelectedOption(currentChoice);
+    incrementChoiceCount(currentChoice);
     // setCurrentChoice(choice);
   };
 
   return (
     <>
       <OptionWrapper>
-        <div>{DEFAULT_TEXT.instructions}</div>
+        {/* <div>{DEFAULT_TEXT.instructions}</div> */}
         <OptionStyled
           bgColor={randomColor}
+          // choosingTimeout = {choosingTimeout}
+          isChoosing={isChoosing}
           title={DEFAULT_TEXT.makeAChoice}
           onClick={handleShuffle}
         >
-          <OptionWrappable>{selectedOption}</OptionWrappable>
+          <OptionWrappable>{isChoosing ? '' : selectedOption}</OptionWrappable>
         </OptionStyled>
         {/* <ShuffleButton onClick={handleShuffle}>Choose...</ShuffleButton> */}
       </OptionWrapper>

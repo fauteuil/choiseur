@@ -22,7 +22,7 @@ const OptionListScrollWrapper = styled.div`
   display: flex;
   flex-direction: column;
   /* max-height: 9rem; */
-  height: 9rem;
+  height: 12rem;
   overflow: scroll;
 `;
 
@@ -33,24 +33,29 @@ const DeleteIcon = styled.span`
 `;
 
 export function ListItem(
-  option: string,
-  isWinning: boolean,
+  optionId: string,
+  // isWinning: boolean,
   choiceCountMap: ChoiceCountMap,
   handleClick: (option: string) => (event: MouseEvent<HTMLElement>) => void
 ) {
-  const optionDisplay = decodeURIComponent(option);
+  const choice = choiceCountMap.get(optionId);
+
+  if (!choice) return null ;
+
+  // const optionDisplay = decodeURIComponent(optionId);
+  const optionDisplay = choice.label;
   // const { choiceCountMap } = useContext(ChoiceContext);
 
   // const choiceCount = useCallback((choideId:string) => choiceCountMap.get(choideId) || 0,[choiceCountMap]);
 
-  return (
-    <div data-testid={option} key={option}>
-      <span title={optionDisplay}>{optionDisplay}{isWinning ? '*' : ''}</span>
-      <span title={optionDisplay}>({choiceCountMap.get(option) || 0})</span>
+  return !choice ? null : (
+    <div data-testid={optionId} key={optionId}>
+      <span title={optionDisplay}>{optionDisplay}{choice.isWinner ? '***' : ''}</span>
+      <span title={optionDisplay}>({choice.count || 0})</span>
       {/* <span title={optionDisplay}>({choiceCountMap[option] || 0})</span> */}
       <DeleteIcon
         title={`delete ${optionDisplay}`}
-        onClick={handleClick(option)}
+        onClick={handleClick(optionId)}
       >
         X
       </DeleteIcon>
@@ -65,7 +70,7 @@ export function List() {
     removeAllOptions();
   };
 
-  const { choiceCountMap, winningChoice } = useContext(ChoiceContext);
+  const { choiceCountMap } = useContext(ChoiceContext);
 
   // const choiceCount = useCallback((choideId:string) => choiceCountMap.get(choideId) || 0,[choiceCountMap]);
   // const choiceCount = choiceCountMap.get(choideId) || 0;
@@ -82,15 +87,16 @@ export function List() {
     // const list = options.map((option) => {
     return options.map((option) => {
       if (!option) return null;
-      return ListItem(option, (option === winningChoice), choiceCountMap, handleDeleteOptionClick);
+      return ListItem(option, choiceCountMap, handleDeleteOptionClick);
     });
-  }, [choiceCountMap, handleDeleteOptionClick, options, winningChoice]);
+  }, [choiceCountMap, handleDeleteOptionClick, options]);
 
-  console.log('List: choiceCountMap', choiceCountMap);
+  // console.log('List: choiceCountMap', choiceCountMap);
 
   return (
     <>
       {/* {currentChoice ? `currentChoice: ${currentChoice}` : null} */}
+      {/* {winningChoice ? `winningChoice: ${winningChoice}` : null} */}
       <OptionListWrapper>
         <OptionListTitle>
           Choices:
