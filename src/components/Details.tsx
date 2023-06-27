@@ -24,18 +24,14 @@ const OptionWrappable = styled.span`
   text-overflow: ellipsis;
 `;
 
-// animation: ${rotationKeyframes} 3s infinite;
-// transform: rotate(30deg);
-// opacity: .7;
-// }
-
 const rotationKeyframes = keyframes`
 0% {
   transform: rotate(0);
 }
 50% {
   transform: rotate(179deg) scale(1.1);
-  /* filter: blur(25%) ; */
+  /* filter: invert() ; */
+  filter: saturate(200%) ;
 }
 100% {
   transform: rotate(353deg);
@@ -44,14 +40,9 @@ const rotationKeyframes = keyframes`
 
 const ChoiceButton = styled.div<ChoiceButtonProps>`
   -webkit-align-items: center;
-  /* display: flex; */
-  /* overflow: hidden; */
-  /* padding: 3.5rem 1rem; */
-  /* text-wrap: nowrap; */
   align-content: center;
   align-items: center;
   animation: ${(props) =>
-    // props.isChoosing ? css`${rotationKeyframes} ${props.choosingTimeout / 1000}s infinite` : 'none'};
     props.isChoosing
       ? css`
           ${rotationKeyframes} .5s ease-in-out infinite
@@ -65,7 +56,6 @@ const ChoiceButton = styled.div<ChoiceButtonProps>`
   flex-wrap: wrap;
   font-size: 2rem;
   font-weight: bold;
-  /* height: 10rem; */
   height: 12rem;
   justify-content: center;
   justify-content: center;
@@ -75,20 +65,8 @@ const ChoiceButton = styled.div<ChoiceButtonProps>`
   padding: 1rem;
   text-align: center;
   text-overflow: ellipsis;
-  /* width: 17rem; */
   width: 12rem;
 `;
-
-// const ShuffleButton = styled.button`
-//   background-color: #6b737b;
-//   cursor: pointer;
-//   color: #fff;
-//   font-weight: bold;
-//   padding-left: 1rem;
-//   margin-top: 1rem;
-//   border-radius: 1rem;
-//   border: 0.125rem solid #eee;
-// `;
 
 const DEFAULT_TEXT = {
   addChoice: '(Add 2 or more choices...)',
@@ -99,15 +77,11 @@ const DEFAULT_TEXT = {
 
 export function Details() {
   const { options } = useURL();
-  // const choosingTimeout = randomInt(500, 2000);
   const [randomIndex, setRandomIndex] = useState(0);
-  // const [choosingTimeout, setChoosingTimeout] = useState(0);
   const [isChoosing, setIsChoosing] = useState(false);
-  const [randomColor, setRandomColor] = useState(randomRgba(37));
+  const [randomColor, setRandomColor] = useState(randomRgba(47));
 
   const { incrementChoiceCount, setClickTimestamp } = useContext(ChoiceContext);
-
-  // const hi = choiceCount;
 
   const currentChoice = useMemo(
     () =>
@@ -126,7 +100,6 @@ export function Details() {
   );
 
   const shuffle = () => {
-    // setChoosingTimeout(randomInt(500, 2000));
     setIsChoosing(true);
     setRandomIndex(randomInt(0, options.length - 1));
     setRandomColor(randomRgba(37));
@@ -138,28 +111,23 @@ export function Details() {
     shuffle();
     await setTimeout(() => {
       setIsChoosing(false);
-      // }, choosingTimeout);
     }, 500);
     setClickTimestamp(new Date().getTime());
     setSelectedOption(currentChoice);
     incrementChoiceCount(currentChoice);
-    // setCurrentChoice(choice);
   };
 
   return (
     <>
       <OptionWrapper>
-        {/* <div>{DEFAULT_TEXT.instructions}</div> */}
         <ChoiceButton
           bgColor={randomColor}
-          // choosingTimeout = {choosingTimeout}
           isChoosing={isChoosing}
           title={DEFAULT_TEXT.makeAChoice}
           onClick={handleShuffle}
         >
           <OptionWrappable>{isChoosing ? '' : selectedOption}</OptionWrappable>
         </ChoiceButton>
-        {/* <ShuffleButton onClick={handleShuffle}>Choose...</ShuffleButton> */}
       </OptionWrapper>
     </>
   );

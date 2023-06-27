@@ -5,11 +5,9 @@ import styled from 'styled-components';
 
 interface OptionAddFormElements extends HTMLFormControlsCollection {
   name: HTMLInputElement;
-  // time: HTMLInputElement;
 }
 
 interface OptionAddForm extends HTMLFormElement {
-  //  readonly elements: FormElements
   elements: OptionAddFormElements;
 }
 

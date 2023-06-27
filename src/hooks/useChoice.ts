@@ -3,7 +3,6 @@ import { useMemo } from "react";
 import { Choice } from "../components/ChoiceContext";
 import { useURL } from "./useURL";
 
-// export function useChoice(choiceMap:ChoiceMap) {
 export function useChoice() {
 
   const { options } = useURL();
