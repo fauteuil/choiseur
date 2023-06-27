@@ -3,7 +3,8 @@ import { MouseEvent, useCallback, useContext, useMemo } from 'react';
 
 import { useURL } from '../hooks/useURL';
 import { AddOption } from './AddOption';
-import { ChoiceContext, ChoiceCountMap } from './ChoiceContext';
+import { Choice, ChoiceContext } from './ChoiceContext';
+// import { useChoice } from '../hooks/useChoice';
 
 const OptionListTitle = styled.div`
   display: flex;
@@ -22,7 +23,7 @@ const OptionListScrollWrapper = styled.div`
   display: flex;
   flex-direction: column;
   /* max-height: 9rem; */
-  height: 12rem;
+  height: 11rem;
   overflow: scroll;
 `;
 
@@ -32,37 +33,6 @@ const DeleteIcon = styled.span`
   padding-left: 1rem;
 `;
 
-export function ListItem(
-  optionId: string,
-  // isWinning: boolean,
-  choiceCountMap: ChoiceCountMap,
-  handleClick: (option: string) => (event: MouseEvent<HTMLElement>) => void
-) {
-  const choice = choiceCountMap.get(optionId);
-
-  if (!choice) return null ;
-
-  // const optionDisplay = decodeURIComponent(optionId);
-  const optionDisplay = choice.label;
-  // const { choiceCountMap } = useContext(ChoiceContext);
-
-  // const choiceCount = useCallback((choideId:string) => choiceCountMap.get(choideId) || 0,[choiceCountMap]);
-
-  return !choice ? null : (
-    <div data-testid={optionId} key={optionId}>
-      <span title={optionDisplay}>{optionDisplay}{choice.isWinner ? '***' : ''}</span>
-      <span title={optionDisplay}>({choice.count || 0})</span>
-      {/* <span title={optionDisplay}>({choiceCountMap[option] || 0})</span> */}
-      <DeleteIcon
-        title={`delete ${optionDisplay}`}
-        onClick={handleClick(optionId)}
-      >
-        X
-      </DeleteIcon>
-    </div>
-  );
-}
-
 export function List() {
   const { options, removeAllOptions, removeOption } = useURL();
 
@@ -70,7 +40,9 @@ export function List() {
     removeAllOptions();
   };
 
-  const { choiceCountMap } = useContext(ChoiceContext);
+  const { choiceMap } = useContext(ChoiceContext);
+  // const {winningChoice} = useChoice();
+
 
   // const choiceCount = useCallback((choideId:string) => choiceCountMap.get(choideId) || 0,[choiceCountMap]);
   // const choiceCount = choiceCountMap.get(choideId) || 0;
@@ -83,13 +55,54 @@ export function List() {
     [removeOption]
   );
 
-  const list = useMemo(() => {
+  function ListItem(
+    choice: Choice,
+    choiceId: string,
+    // // isWinning: boolean,
+    // choiceCountMap: ChoiceMap,
+    handleClick: (option: string) => (event: MouseEvent<HTMLElement>) => void
+  ) {
+    // const choice = choiceCountMap.get(optionId);
+
+    // if (!choice) return null ;
+
+    // const optionDisplay = decodeURIComponent(optionId);
+    const optionDisplay = choice.label;
+    // const { choiceCountMap } = useContext(ChoiceContext);
+
+    // const choiceCount = useCallback((choideId:string) => choiceCountMap.get(choideId) || 0,[choiceCountMap]);
+
+    // return !choice ? null : (
+      return (
+      <div data-testid={choiceId} key={choiceId}>
+        <span title={optionDisplay}>{optionDisplay}{choice.isWinner ? '***' : ''}</span>
+        <span title={optionDisplay}>({choice.count || 0})</span>
+        {/* <span title={optionDisplay}>({choiceCountMap[option] || 0})</span> */}
+        <DeleteIcon
+          title={`delete ${optionDisplay}`}
+          onClick={handleClick(choiceId)}
+        >
+          X
+        </DeleteIcon>
+      </div>
+    );
+  }
+
+  const renderList = useMemo(() => {
     // const list = options.map((option) => {
-    return options.map((option) => {
-      if (!option) return null;
-      return ListItem(option, choiceCountMap, handleDeleteOptionClick);
-    });
-  }, [choiceCountMap, handleDeleteOptionClick, options]);
+    // return options.map((option) => {
+      const listItems:JSX.Element[] = [];
+      // const winner = winningChoice(choiceMap);
+      choiceMap.forEach((choice,choiceId)=>{
+        if(choice){
+          listItems.push(ListItem(choice,choiceId,handleDeleteOptionClick));
+        }
+      });
+      return listItems;
+      // if (!option) return null;
+      // return ListItem(option, choiceCountMap, handleDeleteOptionClick);
+    },[choiceMap, handleDeleteOptionClick]);
+  // }, [choiceCountMap, handleDeleteOptionClick, options]);
 
   // console.log('List: choiceCountMap', choiceCountMap);
 
@@ -110,7 +123,7 @@ export function List() {
           )}
         </OptionListTitle>
         <OptionListScrollWrapper>
-          {list}
+          {renderList}
           {/* {options.map((option) => {
           if (!option) return null;
           return ListItem(option, choiceCountMap.get(option) || 0, handleDeleteOptionClick);

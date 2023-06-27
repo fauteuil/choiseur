@@ -21,13 +21,13 @@ const AddOptionButton = styled.button`
   border: solid 0.0625rem #6b737b;
   color: #333;
   line-height: 1.5rem;
-
+  background-color: #fff;
   margin: 0.25rem;
 `;
 const AddOptionInput = styled.input`
   margin: 0.25rem;
   line-height: 2.25rem;
-  min-width: 13rem;
+  width: 12rem;
   font-size: 1rem;
 `;
 

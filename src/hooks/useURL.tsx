@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 export function useURL() {
   const query = useMemo(() => new URLSearchParams(window.location.search), []);
   const valueByKey = (key: string) => query?.get(key) || '';
-  const options: string[] = valueByKey('options').trim().split(',').filter((opt) => opt !== '') || [];
+  const options: string[] = valueByKey('options').trim().split(',').map((opt) => decodeURIComponent(opt)).filter((opt) => opt !== '') || [];
   const addOption = (option: string) => {
     options.push(encodeURIComponent(option));
     window.location.search = `?options=${options.join(',')}`;

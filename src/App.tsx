@@ -5,6 +5,8 @@ import { ChoiceProvider } from './components/ChoiceContext';
 // import { CenteredLayoutContainer, CenteredLayoutContent } from './components/CenteredLayoutContainer';
 
 const AppContainer = styled.div`
+  color:black;
+
   max-width: 62.5rem; // 1000px / 16px = 62.5rem
   /* margin: 2rem auto; // 20px / 16px = 1.25rem */
   display: flex;
@@ -37,7 +39,7 @@ const CenteredLayoutContent = styled.div`
 
 const Panel = styled.div`
   flex: 1;
-  padding: 0.25rem; // 20px / 16px = 1.25rem
+  /* padding: 0.25rem; // 20px / 16px = 1.25rem */
 `;
 
 const ListPanel = styled(Panel)`

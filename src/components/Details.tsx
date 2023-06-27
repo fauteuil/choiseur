@@ -6,7 +6,7 @@ import randomRgba from 'random-rgba';
 import { useState } from 'react';
 import { ChoiceContext } from './ChoiceContext';
 
-interface StylableProps {
+interface ChoiceButtonProps {
   bgColor: string;
   // choosingTimeout: number;
   isChoosing?: boolean;
@@ -42,7 +42,7 @@ const rotationKeyframes = keyframes`
 }
 `;
 
-const OptionStyled = styled.div<StylableProps>`
+const ChoiceButton = styled.div<ChoiceButtonProps>`
   -webkit-align-items: center;
   /* display: flex; */
   /* overflow: hidden; */
@@ -66,7 +66,7 @@ const OptionStyled = styled.div<StylableProps>`
   font-size: 2rem;
   font-weight: bold;
   /* height: 10rem; */
-  height: 15rem;
+  height: 12rem;
   justify-content: center;
   justify-content: center;
   line-height: 3rem;
@@ -76,7 +76,7 @@ const OptionStyled = styled.div<StylableProps>`
   text-align: center;
   text-overflow: ellipsis;
   /* width: 17rem; */
-  width: 15rem;
+  width: 12rem;
 `;
 
 // const ShuffleButton = styled.button`
@@ -150,7 +150,7 @@ export function Details() {
     <>
       <OptionWrapper>
         {/* <div>{DEFAULT_TEXT.instructions}</div> */}
-        <OptionStyled
+        <ChoiceButton
           bgColor={randomColor}
           // choosingTimeout = {choosingTimeout}
           isChoosing={isChoosing}
@@ -158,7 +158,7 @@ export function Details() {
           onClick={handleShuffle}
         >
           <OptionWrappable>{isChoosing ? '' : selectedOption}</OptionWrappable>
-        </OptionStyled>
+        </ChoiceButton>
         {/* <ShuffleButton onClick={handleShuffle}>Choose...</ShuffleButton> */}
       </OptionWrapper>
     </>
