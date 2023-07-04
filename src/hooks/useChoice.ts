@@ -5,41 +5,21 @@ import { useURL } from "./useURL";
 
 export function useChoice() {
 
-  const { options } = useURL();
+  const { choices } = useURL();
 
   const initialChoiceMap = useMemo(() => {
     const choiceMap = new Map<string, Choice>();
-    options.forEach((option) => {
-      const optionDecoded = decodeURIComponent(option);
-      choiceMap.set(optionDecoded, {
-        id: optionDecoded,
-        label: optionDecoded,
+    choices.forEach((choice) => {
+      const choiceDecoded = decodeURIComponent(choice);
+      choiceMap.set(choiceDecoded, {
+        id: choiceDecoded,
+        label: choiceDecoded,
         isWinner: false,
         count: 0,
       });
     });
     return choiceMap;
-  }, [options]);
+  }, [choices]);
 
-// function getWinningChoice(map:Map<string, Choice>) {
-  // const winningChoice = useMemo((map: Map<string, Choice>) => {
-  // const winningChoice = useMemo(() => {
-  // const winningChoice = useCallback((choiceMap:ChoiceMap) => {
-  //   let winner ;
-  //   let maxCount = 0;
-  //   Object.keys(choiceMap).forEach((key) => {
-  //     const choice = choiceMap.get(key);
-  //     // const choiceCount = choice?.count || 0;
-  //     if (choice && choice.count > maxCount) {
-  //       maxCount = choice.count;
-  //       choice.isWinner = true;
-  //       winner = choice;
-  //     }
-  //   });
-  //   // return maxKey;
-  //   return winner;
-  // },[]);
-
-// return {initialCountMap, winningChoice};
 return {initialChoiceMap};
 }

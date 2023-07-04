@@ -18,26 +18,6 @@ interface ChoiceContextProps {
   clickTimestamp: number;
 }
 
-// function setWinningChoice(choiceMap:ChoiceMap) {
-//   let winnerId = '';
-//   let max = 0;
-//   Object.keys(choiceMap).forEach((key) => {
-//     const choice = choiceMap.get(key);
-//     if (choice && choice.count > max) {
-//       max = choice.count;
-//       winnerId = key;
-//     }
-//   });
-
-//   const winner = choiceMap.get(winnerId);
-//   if(winner){
-//     console.log('winner',winner);
-//     choiceMap.set(winnerId, {...winner, isWinner:true});
-//   }
-//   // return winner;
-//   // return maxKey;
-// }
-
 export const ChoiceContext = createContext<ChoiceContextProps>({
   choiceMap: new Map<string, Choice>(),
   incrementChoiceCount: () => {
@@ -74,13 +54,11 @@ const countMapReducer = (choiceMap: ChoiceMap, incrementedChoiceId: string) => {
   choiceMap.forEach((choice, testId) => {
     const choiceCount =
       testId === incrementedChoiceId ? choice.count + 1 : choice.count;
-    if (choice && choiceCount > max) {
+    if (choice && choiceCount >= max) {
       max = choice.count;
       winnerId = testId;
     }
   });
-
-  // const currentChoice = choiceMap.get(incrementedChoiceId);
 
   choiceMap.forEach((choice, testId) => {
     const choiceCount =

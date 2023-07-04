@@ -1,24 +1,24 @@
 import styled from 'styled-components';
 import { MouseEvent, useCallback, useContext, useMemo } from 'react';
 
-import { useURL } from '../hooks/useURL';
-import { AddOption } from './AddOption';
 import { Choice, ChoiceContext } from './ChoiceContext';
+import { useURL } from '../hooks/useURL';
+import { AddChoice } from './AddChoice';
 
-const OptionListTitle = styled.div`
+const ChoiceListTitle = styled.div`
   display: flex;
   justify-content: space-between;
   font-weight: bold;
   border-bottom: solid 0.0625rem #6b737b;
 `;
 
-const OptionListWrapper = styled.div`
+const ChoiceListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.5rem 1rem;
 `;
 
-const OptionListScrollWrapper = styled.div`
+const ChoiceListScrollWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 11rem;
@@ -32,34 +32,36 @@ const DeleteIcon = styled.span`
 `;
 
 export function List() {
-  const { options, removeAllOptions, removeOption } = useURL();
+  const { choices, removeAllChoices, removeChoice } = useURL();
 
-  const handleDeleteAllOptionsClick = () => {
-    removeAllOptions();
+  const handleDeleteAllChoicesClick = () => {
+    removeAllChoices();
   };
 
   const { choiceMap } = useContext(ChoiceContext);
 
-  const handleDeleteOptionClick = useCallback(
-    (option: string) => (event: MouseEvent<HTMLElement>) => {
+  const handleDeleteChoiceClick = useCallback(
+    (choice: string) => (event: MouseEvent<HTMLElement>) => {
       event.preventDefault();
-      removeOption(option);
+      removeChoice(choice);
     },
-    [removeOption]
+    [removeChoice]
   );
 
   function ListItem(
     choice: Choice,
     choiceId: string,
-    handleClick: (option: string) => (event: MouseEvent<HTMLElement>) => void
+    handleClick: (choice: string) => (event: MouseEvent<HTMLElement>) => void
   ) {
-    const optionDisplay = choice.label;
-      return (
+    const choiceDisplay = choice.label;
+    return (
       <div data-testid={choiceId} key={choiceId}>
-        <span title={optionDisplay}>{optionDisplay}</span>
-        <span title={optionDisplay}>({choice.count || 0}) {choice.isWinner ? '*' : ''}</span>
+        <span title={choiceDisplay}>{choiceDisplay}</span>
+        <span title={choiceDisplay}>
+          ({choice.count || 0}) {choice.isWinner ? '*' : ''}
+        </span>
         <DeleteIcon
-          title={`delete ${optionDisplay}`}
+          title={`delete ${choiceDisplay}`}
           onClick={handleClick(choiceId)}
         >
           X
@@ -69,34 +71,32 @@ export function List() {
   }
 
   const renderList = useMemo(() => {
-      const listItems:JSX.Element[] = [];
-      choiceMap.forEach((choice,choiceId)=>{
-        if(choice){
-          listItems.push(ListItem(choice,choiceId,handleDeleteOptionClick));
-        }
-      });
-      return listItems;
-    },[choiceMap, handleDeleteOptionClick]);
+    const listItems: JSX.Element[] = [];
+    choiceMap.forEach((choice, choiceId) => {
+      if (choice) {
+        listItems.push(ListItem(choice, choiceId, handleDeleteChoiceClick));
+      }
+    });
+    return listItems;
+  }, [choiceMap, handleDeleteChoiceClick]);
 
   return (
     <>
-      <OptionListWrapper>
-        <OptionListTitle>
+      <ChoiceListWrapper>
+        <ChoiceListTitle>
           Choices:
-          {!options?.length ? null : (
+          {!choices?.length ? null : (
             <DeleteIcon
               title={`delete ALL`}
-              onClick={handleDeleteAllOptionsClick}
+              onClick={handleDeleteAllChoicesClick}
             >
               X (ALL)
             </DeleteIcon>
           )}
-        </OptionListTitle>
-        <OptionListScrollWrapper>
-          {renderList}
-        </OptionListScrollWrapper>
-        <AddOption />
-      </OptionListWrapper>
+        </ChoiceListTitle>
+        <ChoiceListScrollWrapper>{renderList}</ChoiceListScrollWrapper>
+        <AddChoice />
+      </ChoiceListWrapper>
     </>
   );
 }

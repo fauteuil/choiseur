@@ -5,6 +5,7 @@ import { randomInt } from '@dmhtoo/random-int';
 import randomRgba from 'random-rgba';
 import { useState } from 'react';
 import { ChoiceContext } from './ChoiceContext';
+import { AddTopic } from './AddTopic';
 
 interface ChoiceButtonProps {
   bgColor: string;
@@ -12,13 +13,13 @@ interface ChoiceButtonProps {
   isChoosing?: boolean;
 }
 
-const OptionWrapper = styled.div`
+const ChoiceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
 `;
 
-const OptionWrappable = styled.span`
+const ChoiceWrappable = styled.span`
   white-space: break-spaces;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -76,7 +77,7 @@ const DEFAULT_TEXT = {
 };
 
 export function Details() {
-  const { options } = useURL();
+  const { choices } = useURL();
   const [randomIndex, setRandomIndex] = useState(0);
   const [isChoosing, setIsChoosing] = useState(false);
   const [randomColor, setRandomColor] = useState(randomRgba(47));
@@ -86,22 +87,22 @@ export function Details() {
   const currentChoice = useMemo(
     () =>
       decodeURIComponent(
-        options.length === 0
+        choices.length === 0
           ? DEFAULT_TEXT.addChoice
-          : options?.length === 1
+          : choices?.length === 1
           ? DEFAULT_TEXT.needs2Choices
-          : options[randomIndex]
+          : choices[randomIndex]
       ),
-    [options, randomIndex]
+    [choices, randomIndex]
   );
 
-  const [selectedOption, setSelectedOption] = useState(
-    options.length > 1 ? DEFAULT_TEXT.makeAChoice : currentChoice
+  const [selectedChoice, setSelectedChoice] = useState(
+    choices.length > 1 ? DEFAULT_TEXT.makeAChoice : currentChoice
   );
 
   const shuffle = () => {
     setIsChoosing(true);
-    setRandomIndex(randomInt(0, options.length - 1));
+    setRandomIndex(randomInt(0, choices.length - 1));
     setRandomColor(randomRgba(37));
   };
 
@@ -113,22 +114,24 @@ export function Details() {
       setIsChoosing(false);
     }, 500);
     setClickTimestamp(new Date().getTime());
-    setSelectedOption(currentChoice);
+    setSelectedChoice(currentChoice);
     incrementChoiceCount(currentChoice);
   };
 
   return (
     <>
-      <OptionWrapper>
+      <ChoiceWrapper>
+        <AddTopic />
+
         <ChoiceButton
           bgColor={randomColor}
           isChoosing={isChoosing}
           title={DEFAULT_TEXT.makeAChoice}
           onClick={handleShuffle}
         >
-          <OptionWrappable>{isChoosing ? '' : selectedOption}</OptionWrappable>
+          <ChoiceWrappable>{isChoosing ? '' : selectedChoice}</ChoiceWrappable>
         </ChoiceButton>
-      </OptionWrapper>
+      </ChoiceWrapper>
     </>
   );
 }
