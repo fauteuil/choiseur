@@ -21,11 +21,11 @@ const ChoiceListWrapper = styled.div`
 const ChoiceListScrollWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 11rem;
+  height: 7rem;
   overflow: scroll;
 `;
 
-const DeleteIcon = styled.span`
+export const DeleteIcon = styled.span`
   cursor: pointer;
   font-weight: bold;
   padding-left: 1rem;

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { List } from './components/List';
 import { Details } from './components/Details';
 import { ChoiceProvider } from './components/ChoiceContext';
+import { Header } from './components/Header';
 
 const AppContainer = styled.div`
   color:black;
@@ -41,14 +42,15 @@ export function App() {
   return (
     <ChoiceProvider>
       <CenteredLayoutContent>
+          <Header />
         <AppContainer>
-          {/* <Menu /> */}
           <ListPanel>
             <List />
           </ListPanel>
           <DetailsPanel>
             <Details />
           </DetailsPanel>
+          {/* <Header /> */}
         </AppContainer>
       </CenteredLayoutContent>
     </ChoiceProvider>

@@ -5,7 +5,7 @@ import { randomInt } from '@dmhtoo/random-int';
 import randomRgba from 'random-rgba';
 import { useState } from 'react';
 import { ChoiceContext } from './ChoiceContext';
-import { AddTopic } from './AddTopic';
+// import { AddTopic } from './AddTopic';
 
 interface ChoiceButtonProps {
   bgColor: string;
@@ -121,7 +121,7 @@ export function Details() {
   return (
     <>
       <ChoiceWrapper>
-        <AddTopic />
+        {/* <AddTopic /> */}
 
         <ChoiceButton
           bgColor={randomColor}

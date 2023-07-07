@@ -19,10 +19,17 @@ export function useURL() {
     query.set('choices', choices.join(','));
     window.location.search = query.toString();
   };
-  const addTopic = (topic: string) => {
-    query.set('topic', encodeURIComponent(topic));
-    window.location.search = query.toString();
-  };
+  const addTopic = useCallback((topic = '') => {
+    // const newTopic = topic.replaceAll(' ','');
+    const newTopic = topic.trim();
+    const currentTopic = query.get('topic');
+    // if(newTopic && currentTopic !== newTopic){
+    if(currentTopic !== newTopic){
+      query.set('topic', encodeURIComponent(newTopic));
+      window.location.search = query.toString();
+    }
+  },[query]);
+
   const removeChoice = (choice: string) => {
     const newChoices = choices.filter((opt) => opt !== choice);
     query.set('choices', newChoices.join(','));

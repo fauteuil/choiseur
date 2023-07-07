@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 
 import { useURL } from '../hooks/useURL';
 
@@ -13,7 +13,7 @@ interface TopicAddForm extends HTMLFormElement {
 }
 
 const AddTopicForm = styled.form`
-  margin-bottom: 1rem;
+  display: flex;
 `;
 const AddTopicButton = styled.button`
   font-weight: bold;
@@ -30,45 +30,39 @@ const AddTopicInput = styled.input`
   font-size: 1rem;
 `;
 
+
 export function AddTopic() {
   const { addTopic, topic } = useURL();
-  const [newTopic, setNewTopic] = useState('');
+  const [newTopic, setNewTopic] = useState(topic);
   const refTopicInput = useRef<HTMLInputElement>(null);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    const inputValue = event.currentTarget.value?.trim() || '';
-    if (inputValue) {
-      setNewTopic(inputValue);
-    }
+    const inputValue = event.currentTarget.value || '';
+    setNewTopic(inputValue);
   };
 
   const handleAddTopic = (event: FormEvent<TopicAddForm>) => {
     event.preventDefault();
-    addTopic(encodeURIComponent(newTopic));
-    if (refTopicInput.current) {
-      refTopicInput.current?.focus();
-    }
+    addTopic(newTopic);
   };
-
-  useEffect(() => {
-    if (refTopicInput.current) {
-      refTopicInput.current?.focus();
-    }
-  }, []);
 
   return (
     <>
-      <AddTopicForm onSubmit={handleAddTopic}>
-        <AddTopicInput
-          ref={refTopicInput}
-          type='text'
-          onChange={handleChange}
-          placeholder='Add a topic...'
-          value={topic}
-        />
-        <AddTopicButton type='submit'>+</AddTopicButton>
-      </AddTopicForm>
+      {!topic ? (
+        <AddTopicForm onSubmit={handleAddTopic}>
+          <AddTopicInput
+            ref={refTopicInput}
+            type='text'
+            onChange={handleChange}
+            placeholder={'add topic...'}
+            value={newTopic}
+          />
+          <AddTopicButton type='submit'>+</AddTopicButton>
+        </AddTopicForm>
+      ) : (
+null
+      )}
     </>
   );
 }
