@@ -51,7 +51,8 @@ const Ul = styled.ul`
         display: flex;
         flex-direction: column;
         position: absolute;
-        top: 3.75rem; // 60px / 16px = 3.75rem
+        /* top: 3.75rem; // 60px / 16px = 3.75rem */
+        top: 2.75rem; // 60px / 16px = 3.75rem
         left: 0;
         /* width: 100%; */
         padding-right: 1rem;
@@ -70,17 +71,17 @@ const Li = styled.li`
   }
 `;
 
-// const A = styled.a`
-//   color: #fff;
-//   text-decoration: none;
-//   padding: 0.625rem; // 10px / 16px = 0.625rem
-//   display: block;
+const A = styled.a`
+  color: #fff;
+  text-decoration: none;
+  padding: 0.625rem; // 10px / 16px = 0.625rem
+  display: block;
 
-//   @media screen and (max-width: 48rem) {
-//     // 768px / 16px = 48rem
-//     padding: 0.625rem;
-//   }
-// `;
+  @media screen and (max-width: 48rem) {
+    // 768px / 16px = 48rem
+    padding: 0.625rem;
+  }
+`;
 
 const TopicWrapper = styled.div`
   padding: 0 1rem;
@@ -92,43 +93,52 @@ const TopicWrapper = styled.div`
 export function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const { addTopic, topic } = useURL();
+  const [showTopicForm, setShowTopicForm] = useState(!topic);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
 
-  const handleClearTopic = () => {
-    // event.preventDefault();
-    // setNewTopic('');
+  // const handleClearTopic = () => {
+  //   addTopic('');
+  //   setShowTopicForm(true);
+  // };
 
-    addTopic('');
+  const handleTopicClick = () => {
+    setShowTopicForm(true);
   };
 
   return (
     <HeaderWrapper>
       <Nav>
-      <MenuIcon onClick={toggleMenu}>
+        <MenuIcon onClick={toggleMenu}>
           {/* <i className='fa fa-bars'>menu</i>*/}
           |||
         </MenuIcon>
-        {topic ? (
-          <>
-            <TopicWrapper>{topic}</TopicWrapper>
+        <>
+          <TopicWrapper>
+            {showTopicForm || !topic ? (
+              <AddTopic />
+            ) : (
+              <span onClick={handleTopicClick}>{topic}</span>
+            )}
+            {/* <DeleteTopicIcon title={`clear topic`} onClick={handleClearTopic}>
+                {`X`}
+              </DeleteTopicIcon> */}
+          </TopicWrapper>
+          <div></div>
 
-            <DeleteTopicIcon title={`clear topic`} onClick={handleClearTopic}>
+          {/* <DeleteTopicIcon title={`clear topic`} onClick={handleClearTopic}>
               {`X`}
-            </DeleteTopicIcon>
-          </>
-        ) : (
-          ''
-        )}
+            </DeleteTopicIcon> */}
+        </>
         <Ul showMenu={showMenu}>
-          <Li>
-            <AddTopic />
-          </Li>
           {/* <Li>
-            <A href='#'>Dashboard</A>
+            <AddTopic />
           </Li> */}
+          <Li>
+            <A href='#'>copy link</A>
+          </Li>
           {/*<Li>
             <A href='#'>Activities</A>
           </Li>

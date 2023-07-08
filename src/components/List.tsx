@@ -21,7 +21,7 @@ const ChoiceListWrapper = styled.div`
 const ChoiceListScrollWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 7rem;
+  height: 8rem;
   overflow: scroll;
 `;
 

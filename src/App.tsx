@@ -16,10 +16,15 @@ const AppContainer = styled.div`
 `;
 
 const CenteredLayoutContent = styled.div`
-  position: absolute;
+  /* position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
+  position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 100%;
 `;
 
 const Panel = styled.div`

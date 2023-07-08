@@ -15,18 +15,20 @@ const AddChoiceForm = styled.form`
   margin-top: 1rem;
 `;
 const AddChoiceButton = styled.button`
-  font-weight: bold;
-  border: solid 0.0625rem #6b737b;
-  color: #333;
-  line-height: 1.5rem;
+  /* line-height: 1.5rem; */
   background-color: #fff;
+  border-radius: 0.25rem;
+  border: solid 0.0625rem #6b737b;
+  color: #6b737b;
+  font-weight: bold;
   margin: 0.25rem;
 `;
 const AddChoiceInput = styled.input`
-  margin: 0.25rem;
-  line-height: 2.25rem;
-  width: 12rem;
+  border-radius: 0.25rem;
   font-size: 1rem;
+  line-height: 2.25rem;
+  margin: 0.25rem;
+  width: 12rem;
 `;
 
 export function AddChoice() {
@@ -63,7 +65,7 @@ export function AddChoice() {
           ref={refChoiceInput}
           type='text'
           onChange={handleChange}
-          placeholder='Add a choice...'
+          placeholder='add a choice...'
         />
         <AddChoiceButton type='submit'>+</AddChoiceButton>
       </AddChoiceForm>

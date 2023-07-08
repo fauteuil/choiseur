@@ -16,20 +16,26 @@ const AddTopicForm = styled.form`
   display: flex;
 `;
 const AddTopicButton = styled.button`
-  font-weight: bold;
-  border: solid 0.0625rem #6b737b;
+  /* background-color: #fff; */
+  background-color: #6b737b;
+  border: solid 0.0625rem #fff;
+  border-radius: 0.25rem;
   color: #333;
-  line-height: 1.5rem;
-  background-color: #fff;
+  color: #fff;
+  font-weight: bold;
+  /* line-height: 1.5rem; */
   margin: 0.25rem;
 `;
 const AddTopicInput = styled.input`
-  margin: 0.25rem;
-  line-height: 2.25rem;
-  width: 12rem;
+  background-color: #6b737b;
+  border-radius: 0.25rem;
+  border: solid #fff 0.0625rem;
+  color: #fff;
   font-size: 1rem;
+  line-height: 2.25rem;
+  margin: 0.25rem;
+  width: 12rem;
 `;
-
 
 export function AddTopic() {
   const { addTopic, topic } = useURL();
@@ -49,20 +55,20 @@ export function AddTopic() {
 
   return (
     <>
-      {!topic ? (
-        <AddTopicForm onSubmit={handleAddTopic}>
-          <AddTopicInput
-            ref={refTopicInput}
-            type='text'
-            onChange={handleChange}
-            placeholder={'add topic...'}
-            value={newTopic}
-          />
-          <AddTopicButton type='submit'>+</AddTopicButton>
-        </AddTopicForm>
-      ) : (
+      {/* {!topic ? ( */}
+      <AddTopicForm onSubmit={handleAddTopic}>
+        <AddTopicInput
+          ref={refTopicInput}
+          type='text'
+          onChange={handleChange}
+          placeholder={'add topic...'}
+          value={newTopic}
+        />
+        <AddTopicButton type='submit'>+</AddTopicButton>
+      </AddTopicForm>
+      {/* ) : (
 null
-      )}
+      )} */}
     </>
   );
 }
