@@ -3,7 +3,8 @@ import { List } from './components/List';
 import { Details } from './components/Details';
 import { ChoiceProvider } from './components/ChoiceContext';
 import { Header } from './components/Header';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const AppContainer = styled.div`
   color:black;
@@ -48,26 +49,26 @@ export function App() {
 
   const [hello, setHello] = useState('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetch(
-        '/.netlify/functions/hello',
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //   },
-        // }
-      );
-      const data = await result.json();
-      setHello(data);
-    };
-    fetchData();
-  }, [setHello]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await fetch(
+  //       '/.netlify/functions/hello',
+  //       // {
+  //       //   headers: {
+  //       //     Authorization: `Bearer ${token}`,
+  //       //   },
+  //       // }
+  //     );
+  //     const data = await result.json();
+  //     setHello(data);
+  //   };
+  //   fetchData();
+  // }, [setHello]);
 
   return (
     <ChoiceProvider>
       <CenteredLayoutContent>
-        {hello || 'Howdy'}
+        {/* {hello || 'Howdy'} */}
           <Header />
         <AppContainer>
           <ListPanel>
