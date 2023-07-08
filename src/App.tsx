@@ -4,7 +4,7 @@ import { Details } from './components/Details';
 import { ChoiceProvider } from './components/ChoiceContext';
 import { Header } from './components/Header';
 // import { useEffect, useState } from 'react';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 const AppContainer = styled.div`
   color:black;
@@ -47,7 +47,7 @@ const DetailsPanel = styled(Panel)`
 
 export function App() {
 
-  const [hello, setHello] = useState('');
+  // const [hello, setHello] = useState('');
 
   // useEffect(() => {
   //   const fetchData = async () => {
