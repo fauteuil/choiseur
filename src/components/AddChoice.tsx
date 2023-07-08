@@ -1,5 +1,5 @@
 import { useURL } from '../hooks/useURL';
-import { ChangeEvent, FormEvent, useEffect, useRef } from 'react';
+import { type ChangeEvent, type FormEvent, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 

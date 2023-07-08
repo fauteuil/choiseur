@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { Choice } from "../components/ChoiceContext";
+import { type Choice } from "../components/ChoiceContext";
 import { useURL } from "./useURL";
 
 export function useChoice() {

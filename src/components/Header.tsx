@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 import { useState } from 'react';
 import { AddTopic } from './AddTopic';
 import { useURL } from '../hooks/useURL';
-import { DeleteIcon } from './List';
 
 const HeaderWrapper = styled.header`
   background-color: #333;
@@ -33,9 +32,9 @@ const MenuIcon = styled.div`
   }
 `;
 
-const DeleteTopicIcon = styled(DeleteIcon)`
-  margin-right: 0.5rem;
-`;
+// const DeleteTopicIcon = styled(DeleteIcon)`
+//   margin-right: 0.5rem;
+// `;
 
 const Ul = styled.ul`
   display: flex;
@@ -92,7 +91,7 @@ const TopicWrapper = styled.div`
 
 export function Header() {
   const [showMenu, setShowMenu] = useState(false);
-  const { addTopic, topic } = useURL();
+  const { topic } = useURL();
   const [showTopicForm, setShowTopicForm] = useState(!topic);
 
   const toggleMenu = () => {

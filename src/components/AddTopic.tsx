@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import { type ChangeEvent, type FormEvent, useRef, useState } from 'react';
 
 import { useURL } from '../hooks/useURL';
 

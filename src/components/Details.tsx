@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 import { useURL } from '../hooks/useURL';
-import { MouseEvent, useContext, useMemo } from 'react';
+import { type MouseEvent, useContext, useMemo } from 'react';
 import { randomInt } from '@dmhtoo/random-int';
 import randomRgba from 'random-rgba';
 import { useState } from 'react';

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { MouseEvent, useCallback, useContext, useMemo } from 'react';
+import { type MouseEvent, useCallback, useContext, useMemo } from 'react';
 
-import { Choice, ChoiceContext } from './ChoiceContext';
+import { type Choice, ChoiceContext } from './ChoiceContext';
 import { useURL } from '../hooks/useURL';
 import { AddChoice } from './AddChoice';
 

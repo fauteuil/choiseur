@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useReducer, Dispatch } from 'react';
+import { createContext, type PropsWithChildren, useReducer, type Dispatch } from 'react';
 import { useChoice } from '../hooks/useChoice';
 
 export type Choice = {
