@@ -21,12 +21,14 @@ const AddChoiceButton = styled.button`
   border: solid 0.0625rem #6b737b;
   color: #6b737b;
   font-weight: bold;
+  line-height: 2rem;
   margin: 0.25rem;
 `;
 const AddChoiceInput = styled.input`
   border-radius: 0.25rem;
+  border: solid 0.0625rem #6b737b;
   font-size: 1rem;
-  line-height: 2.25rem;
+  line-height: 2rem;
   margin: 0.25rem;
   width: 12rem;
 `;

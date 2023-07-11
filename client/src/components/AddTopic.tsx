@@ -17,22 +17,22 @@ const AddTopicForm = styled.form`
 `;
 const AddTopicButton = styled.button`
   /* background-color: #fff; */
-  background-color: #6b737b;
+  background-color: rgb(194 205 216);
   border: solid 0.0625rem #fff;
   border-radius: 0.25rem;
-  color: #333;
-  color: #fff;
+  color: #6b737b;
+  /* color: #fff; */
   font-weight: bold;
   /* line-height: 1.5rem; */
   margin: 0.25rem;
 `;
 const AddTopicInput = styled.input`
-  background-color: #6b737b;
+  background-color: rgb(194 205 216);
   border-radius: 0.25rem;
   border: solid #fff 0.0625rem;
-  color: #fff;
+  color: #6b737b;
   font-size: 1rem;
-  line-height: 2.25rem;
+  line-height: 2rem;
   margin: 0.25rem;
   width: 12rem;
 `;
@@ -61,7 +61,7 @@ export function AddTopic() {
           ref={refTopicInput}
           type='text'
           onChange={handleChange}
-          placeholder={'add topic...'}
+          placeholder={'add a topic...'}
           value={newTopic}
         />
         <AddTopicButton type='submit'>+</AddTopicButton>

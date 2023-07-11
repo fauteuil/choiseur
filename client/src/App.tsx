@@ -7,7 +7,7 @@ import { Header } from './components/Header';
 // import { useState } from 'react';
 
 const AppContainer = styled.div`
-  color:black;
+  color: black;
 
   max-width: 62.5rem; // 1000px / 16px = 62.5rem
   display: flex;
@@ -18,15 +18,23 @@ const AppContainer = styled.div`
 `;
 
 const CenteredLayoutContent = styled.div`
-  /* position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
+  /* 'base' styles */
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
   position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 100%;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 100%;
 `;
 
 const Panel = styled.div`
@@ -46,7 +54,6 @@ const DetailsPanel = styled(Panel)`
 `;
 
 export function App() {
-
   // const [hello, setHello] = useState('');
 
   // useEffect(() => {
@@ -65,12 +72,11 @@ export function App() {
   //   fetchData();
   // }, [setHello]);
 
-
   return (
     <ChoiceProvider>
       <CenteredLayoutContent>
         {/* {hello || 'Howdy'} */}
-          <Header />
+        <Header />
         <AppContainer>
           <ListPanel>
             <List />
