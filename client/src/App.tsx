@@ -3,6 +3,7 @@ import { List } from './components/List';
 import { Details } from './components/Details';
 import { ChoiceProvider } from './components/ChoiceContext';
 import { Header } from './components/Header';
+import { useState, useEffect } from 'react';
 // import { useEffect, useState } from 'react';
 // import { useState } from 'react';
 
@@ -18,7 +19,7 @@ const AppContainer = styled.div`
 `;
 
 const CenteredLayoutContent = styled.div`
-  /* 'base' styles */
+  /* base styles */
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
@@ -54,28 +55,29 @@ const DetailsPanel = styled(Panel)`
 `;
 
 export function App() {
-  // const [hello, setHello] = useState('');
+  const [hello, setHello] = useState('');
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const result = await fetch(
-  //       '/.netlify/functions/hello',
-  //       // {
-  //       //   headers: {
-  //       //     Authorization: `Bearer ${token}`,
-  //       //   },
-  //       // }
-  //     );
-  //     const data = await result.json();
-  //     setHello(data);
-  //   };
-  //   fetchData();
-  // }, [setHello]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch(
+        'https://choiseur-service02.netlify.app/.netlify/functions/api/hello',
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // }
+      );
+      // const data = await result.json();
+      const data = await result.json();
+      setHello(data?.body?.message || 'oops');
+    };
+    fetchData();
+  }, [setHello]);
 
   return (
     <ChoiceProvider>
       <CenteredLayoutContent>
-        {/* {hello || 'Howdy'} */}
+        {hello || 'Howdy'}
         <Header />
         <AppContainer>
           <ListPanel>
