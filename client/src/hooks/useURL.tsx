@@ -20,10 +20,8 @@ export function useURL() {
     window.location.search = query.toString();
   };
   const addTopic = useCallback((topic = '') => {
-    // const newTopic = topic.replaceAll(' ','');
     const newTopic = topic.trim();
     const currentTopic = query.get('topic');
-    // if(newTopic && currentTopic !== newTopic){
     if(currentTopic !== newTopic){
       query.set('topic', encodeURIComponent(newTopic));
       window.location.search = query.toString();

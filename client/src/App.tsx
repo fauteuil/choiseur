@@ -3,9 +3,6 @@ import { List } from './components/List';
 import { Details } from './components/Details';
 import { ChoiceProvider } from './components/ChoiceContext';
 import { Header } from './components/Header';
-import { useState, useEffect } from 'react';
-// import { useEffect, useState } from 'react';
-// import { useState } from 'react';
 
 const AppContainer = styled.div`
   color: black;
@@ -55,29 +52,10 @@ const DetailsPanel = styled(Panel)`
 `;
 
 export function App() {
-  const [hello, setHello] = useState('');
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetch(
-        'https://choiseur-service02.netlify.app/.netlify/functions/api/hello',
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //   },
-        // }
-      );
-      // const data = await result.json();
-      const data = await result.json();
-      setHello(data?.body?.message || 'oops');
-    };
-    fetchData();
-  }, [setHello]);
 
   return (
     <ChoiceProvider>
       <CenteredLayoutContent>
-        {hello || 'Howdy'}
         <Header />
         <AppContainer>
           <ListPanel>
@@ -86,7 +64,6 @@ export function App() {
           <DetailsPanel>
             <Details />
           </DetailsPanel>
-          {/* <Header /> */}
         </AppContainer>
       </CenteredLayoutContent>
     </ChoiceProvider>

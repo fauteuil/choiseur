@@ -5,11 +5,9 @@ import { randomInt } from '@dmhtoo/random-int';
 import randomRgba from 'random-rgba';
 import { useState } from 'react';
 import { ChoiceContext } from './ChoiceContext';
-// import { AddTopic } from './AddTopic';
 
 interface ChoiceButtonProps {
   bgColor: string;
-  // choosingTimeout: number;
   isChoosing?: boolean;
 }
 
@@ -31,7 +29,6 @@ const rotationKeyframes = keyframes`
 }
 50% {
   transform: rotate(179deg) scale(1.1);
-  /* filter: invert() ; */
   filter: saturate(200%) ;
 }
 100% {
@@ -121,7 +118,6 @@ export function Details() {
   return (
     <>
       <ChoiceWrapper>
-        {/* <AddTopic /> */}
 
         <ChoiceButton
           bgColor={randomColor}

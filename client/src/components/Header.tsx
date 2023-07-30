@@ -1,4 +1,8 @@
 import styled, { css } from 'styled-components';
+
+import { v4 as uuidv4 } from 'uuid';
+// import('dotenv').config();
+
 import { useState } from 'react';
 import { AddTopic } from './AddTopic';
 import { useURL } from '../hooks/useURL';
@@ -6,12 +10,12 @@ import { useURL } from '../hooks/useURL';
 const HeaderWrapper = styled.header`
   background-color: #333;
   color: #fff;
-  height: 3.75rem; // 60px / 16px = 3.75rem
+  height: 3.75rem;
   position: relative;
 `;
 
 const Nav = styled.nav`
-  max-width: 62.5rem; // 1000px / 16px = 62.5rem
+  max-width: 62.5rem;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -21,27 +25,21 @@ const Nav = styled.nav`
 
 const MenuIcon = styled.div`
   display: none;
-  font-size: 1.5rem; // 24px / 16px = 1.5rem
+  font-size: 1.5rem;
   cursor: pointer;
   transform: rotate(90deg);
   margin-left: 0.75rem;
 
   @media screen and (max-width: 48rem) {
-    // 768px / 16px = 48rem
     display: block;
   }
 `;
-
-// const DeleteTopicIcon = styled(DeleteIcon)`
-//   margin-right: 0.5rem;
-// `;
 
 const Ul = styled.ul`
   display: flex;
   list-style: none;
 
   @media screen and (max-width: 48rem) {
-    // 768px / 16px = 48rem
     display: none;
 
     ${({ showMenu }: { showMenu: boolean }) =>
@@ -50,10 +48,8 @@ const Ul = styled.ul`
         display: flex;
         flex-direction: column;
         position: absolute;
-        /* top: 3.75rem; // 60px / 16px = 3.75rem */
-        top: 2.75rem; // 60px / 16px = 3.75rem
+        top: 2.75rem;
         left: 0;
-        /* width: 100%; */
         padding-right: 1rem;
         background-color: #333;
       `}
@@ -61,23 +57,20 @@ const Ul = styled.ul`
 `;
 
 const Li = styled.li`
-  margin-right: 1.25rem; // 20px / 16px = 1.25rem
+  margin-right: 1.25rem;
 
   @media screen and (max-width: 48rem) {
-    // 768px / 16px = 48rem
     margin-right: 0;
-    /* margin-bottom: 0.625rem; // 10px / 16px = 0.625rem */
   }
 `;
 
-const A = styled.a`
+const Link = styled.span`
   color: #fff;
   text-decoration: none;
-  padding: 0.625rem; // 10px / 16px = 0.625rem
+  padding: 0.625rem;
   display: block;
 
   @media screen and (max-width: 48rem) {
-    // 768px / 16px = 48rem
     padding: 0.625rem;
   }
 `;
@@ -89,6 +82,8 @@ const TopicWrapper = styled.div`
   text-overflow: ellipsis;
 `;
 
+// const { API_URL } = process.env.API_URL;
+
 export function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const { topic } = useURL();
@@ -98,20 +93,40 @@ export function Header() {
     setShowMenu(!showMenu);
   };
 
-  // const handleClearTopic = () => {
-  //   addTopic('');
-  //   setShowTopicForm(true);
-  // };
 
   const handleTopicClick = () => {
     setShowTopicForm(true);
+  };
+
+  /**
+   * create shortened URL to copy/share
+   */
+  const handleCopyLink = async () => {
+    const originalUrl = window.location.href;
+    const shortenedUrl = uuidv4();
+
+
+    const newLink = {original: originalUrl,
+      short: shortenedUrl
+    }
+
+    const result = await fetch(
+      'http://localhost:8888/.netlify/functions/api/add-url/',
+      {
+      method: 'POST',
+      headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newLink),
+    })
+    console.log('handleCopyLink',result.body);
   };
 
   return (
     <HeaderWrapper>
       <Nav>
         <MenuIcon onClick={toggleMenu}>
-          {/* <i className='fa fa-bars'>menu</i>*/}
           |||
         </MenuIcon>
         <>
@@ -125,24 +140,10 @@ export function Header() {
                 {`X`}
               </DeleteTopicIcon> */}
           </TopicWrapper>
-          <div></div>
-
-          {/* <DeleteTopicIcon title={`clear topic`} onClick={handleClearTopic}>
-              {`X`}
-            </DeleteTopicIcon> */}
         </>
         <Ul showMenu={showMenu}>
           {/* <Li>
-            <AddTopic />
-          </Li> */}
-          <Li>
-            <A href='#'>copy link</A>
-          </Li>
-          {/*<Li>
-            <A href='#'>Activities</A>
-          </Li>
-          <Li>
-            <A href='#'>Feed</A>
+            <Link onClick={handleCopyLink}>copy link</Link>
           </Li> */}
         </Ul>
       </Nav>

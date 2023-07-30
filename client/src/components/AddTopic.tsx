@@ -16,14 +16,11 @@ const AddTopicForm = styled.form`
   display: flex;
 `;
 const AddTopicButton = styled.button`
-  /* background-color: #fff; */
   background-color: rgb(194 205 216);
   border: solid 0.0625rem #fff;
   border-radius: 0.25rem;
   color: #6b737b;
-  /* color: #fff; */
   font-weight: bold;
-  /* line-height: 1.5rem; */
   margin: 0.25rem;
 `;
 const AddTopicInput = styled.input`
@@ -55,7 +52,6 @@ export function AddTopic() {
 
   return (
     <>
-      {/* {!topic ? ( */}
       <AddTopicForm onSubmit={handleAddTopic}>
         <AddTopicInput
           ref={refTopicInput}
@@ -66,9 +62,6 @@ export function AddTopic() {
         />
         <AddTopicButton type='submit'>+</AddTopicButton>
       </AddTopicForm>
-      {/* ) : (
-null
-      )} */}
     </>
   );
 }

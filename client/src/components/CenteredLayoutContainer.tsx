@@ -8,10 +8,6 @@ export const CenteredLayoutContainer = styled.div`
 `;
 
 export const CenteredLayoutContent = styled.div`
-  /* Replace the values below with the desired dimensions for your div */
-  /* width: 300px;
-  height: 200px; */
-  /* Centering styles */
   position: relative;
   top: 50%;
   left: 50%;
