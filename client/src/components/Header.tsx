@@ -101,27 +101,27 @@ export function Header() {
   /**
    * create shortened URL to copy/share
    */
-  const handleCopyLink = async () => {
-    const originalUrl = window.location.href;
-    const shortenedUrl = uuidv4();
+  // const handleCopyLink = async () => {
+  //   const originalUrl = window.location.href;
+  //   const shortenedUrl = uuidv4();
 
 
-    const newLink = {original: originalUrl,
-      short: shortenedUrl
-    }
+  //   const newLink = {original: originalUrl,
+  //     short: shortenedUrl
+  //   }
 
-    const result = await fetch(
-      'http://localhost:8888/.netlify/functions/api/add-url/',
-      {
-      method: 'POST',
-      headers: {
-        Accept: 'application.json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newLink),
-    })
-    console.log('handleCopyLink',result.body);
-  };
+  //   const result = await fetch(
+  //     'http://localhost:8888/.netlify/functions/api/add-url/',
+  //     {
+  //     method: 'POST',
+  //     headers: {
+  //       Accept: 'application.json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(newLink),
+  //   })
+  //   console.log('handleCopyLink',result.body);
+  // };
 
   return (
     <HeaderWrapper>
