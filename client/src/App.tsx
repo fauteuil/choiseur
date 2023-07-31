@@ -15,7 +15,7 @@ const AppContainer = styled.div`
   }
 `;
 
-const CenteredLayoutContent = styled.div`
+const AppContent = styled.div`
   /* base styles */
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -55,7 +55,7 @@ export function App() {
 
   return (
     <ChoiceProvider>
-      <CenteredLayoutContent>
+      <AppContent>
         <Header />
         <AppContainer>
           <ListPanel>
@@ -65,7 +65,7 @@ export function App() {
             <Details />
           </DetailsPanel>
         </AppContainer>
-      </CenteredLayoutContent>
+      </AppContent>
     </ChoiceProvider>
   );
 }

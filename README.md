@@ -1,4 +1,4 @@
-# Introducing [Choiseur](https://choiseur.com) - decider of (un)important stuff!
+# Introducing [Choiseur](https://choiseur.com/?topic=Lunch%21&choices=Tacos%2CSalad%2CBurgers) - decider of (un)important stuff!
 
 ## Deciding stuff can be hard...
 - choiseur is a simple 'random' coin-toss web application which chooses one option from a list supplied by the user
