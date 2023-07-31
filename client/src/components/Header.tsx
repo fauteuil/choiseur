@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 // import('dotenv').config();
 
 import { useState } from 'react';
@@ -56,24 +56,24 @@ const Ul = styled.ul`
   }
 `;
 
-const Li = styled.li`
-  margin-right: 1.25rem;
+// const Li = styled.li`
+//   margin-right: 1.25rem;
 
-  @media screen and (max-width: 48rem) {
-    margin-right: 0;
-  }
-`;
+//   @media screen and (max-width: 48rem) {
+//     margin-right: 0;
+//   }
+// `;
 
-const Link = styled.span`
-  color: #fff;
-  text-decoration: none;
-  padding: 0.625rem;
-  display: block;
+// const Link = styled.span`
+//   color: #fff;
+//   text-decoration: none;
+//   padding: 0.625rem;
+//   display: block;
 
-  @media screen and (max-width: 48rem) {
-    padding: 0.625rem;
-  }
-`;
+//   @media screen and (max-width: 48rem) {
+//     padding: 0.625rem;
+//   }
+// `;
 
 const TopicWrapper = styled.div`
   padding: 0 1rem;
