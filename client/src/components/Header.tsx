@@ -132,7 +132,7 @@ export function Header() {
         <>
           <TopicWrapper>
             {showTopicForm || !topic ? (
-              <AddTopic />
+              <AddTopic focusText={!!topic}/>
             ) : (
               <span onClick={handleTopicClick}>{topic}</span>
             )}

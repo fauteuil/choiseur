@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { type ChangeEvent, type FormEvent, useRef, useState } from 'react';
+import { type ChangeEvent, type FormEvent, useRef, useState, useEffect } from 'react';
 
 import { useURL } from '../hooks/useURL';
 
@@ -34,7 +34,7 @@ const AddTopicInput = styled.input`
   width: 12rem;
 `;
 
-export function AddTopic() {
+export function AddTopic({ focusText }: { focusText: boolean }) {
   const { addTopic, topic } = useURL();
   const [newTopic, setNewTopic] = useState(topic);
   const refTopicInput = useRef<HTMLInputElement>(null);
@@ -49,6 +49,13 @@ export function AddTopic() {
     event.preventDefault();
     addTopic(newTopic);
   };
+
+  useEffect(() => {
+    if (focusText) {
+      // refTopicInput.current?.focus();
+      refTopicInput.current?.select();
+     }
+  }, [focusText]);
 
   return (
     <>
