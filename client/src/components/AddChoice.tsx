@@ -12,7 +12,7 @@ interface ChoiceAddForm extends HTMLFormElement {
 }
 
 const AddChoiceForm = styled.form`
-  margin-top: 1rem;
+  margin-bottom: 1rem;
 `;
 const AddChoiceButton = styled.button`
   /* line-height: 1.5rem; */
