@@ -1,4 +1,3 @@
-import type { MouseEvent } from "react";
 import type { ButtonBaseProps } from "../button";
 import { ButtonBase } from "../button/ButtonBase";
 import { ScalableSVG } from "./index.d";
