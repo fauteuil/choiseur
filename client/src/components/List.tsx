@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { type MouseEvent, useCallback, useContext, useMemo } from 'react';
 
-import { type Choice, ChoiceContext } from './ChoiceContext';
+import { ChoiceContext } from './ChoiceContext';
 import { useURL } from '../hooks/useURL';
 import { AddChoice } from './AddChoice';
 import { Trash } from './icons/Trash';
+import { ListItem } from './ListItem';
 
 const ChoiceListTitle = styled.div`
   display: flex;
@@ -19,10 +20,13 @@ const ChoiceListWrapper = styled.div`
   padding: 0.5rem 1rem;
 `;
 
-const ChoiceItemWrapper = styled.div`
+
+
+const DeleteAllWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 0.75rem;
 `;
 
 const ChoiceListScrollWrapper = styled.div`
@@ -30,12 +34,7 @@ const ChoiceListScrollWrapper = styled.div`
   flex-direction: column;
   height: 8rem;
   overflow: scroll;
-`;
-
-export const DeleteIcon = styled.span`
-  cursor: pointer;
-  font-weight: bold;
-  padding-left: 1rem;
+  margin-top: 0.5rem;
 `;
 
 export function List() {
@@ -55,39 +54,12 @@ export function List() {
     [removeChoice]
   );
 
-  function ListItem(
-    choice: Choice,
-    choiceId: string,
-    handleClick: (choice: string) => (event: MouseEvent<HTMLElement>) => void
-  ) {
-    const choiceDisplay = choice.label;
-    const countDisplay = `${choice.count || 0}`;
-    return (
-      <ChoiceItemWrapper data-testid={choiceId} key={choiceId}>
-        <span title={countDisplay}>
-          {choiceDisplay}
-          ({countDisplay}) {choice.isWinner ? '*' : ''}
-        </span>
 
-        <DeleteIcon
-          title={`delete ${choiceDisplay}`}
-        >
-          <Trash
-            title={`delete ${choiceDisplay}`}
-            onClick={handleClick(choiceId)}
-          />
-        </DeleteIcon>
-      </ChoiceItemWrapper>
-    );
-  }
-
-  const renderList = useMemo(() => {
+  const choiceList = useMemo(() => {
     const listItems: JSX.Element[] = [];
-    // const handleTrashClick = (choice='') => handleDeleteChoiceClick(choice);
     choiceMap.forEach((choice, choiceId) => {
       if (choice) {
         listItems.push(ListItem(choice, choiceId, handleDeleteChoiceClick));
-        // listItems.push(ListItem(choice, choiceId, handleTrashClick));
       }
     });
     return listItems;
@@ -99,24 +71,17 @@ export function List() {
         <ChoiceListTitle>
           <AddChoice />
           <span>{` `}</span>
-          {/* Choices: */}
           {!choices?.length ? null : (
-            // <DeleteIcon
-            //   title={`delete ALL`}
-            //   onClick={handleDeleteAllChoicesClick}
-            // >
-            //   X (ALL)
-            // </DeleteIcon>
-            <ChoiceItemWrapper title={`delete ALL`}>
+            <DeleteAllWrapper title={`delete ALL`}>
               <Trash
                 title={`delete ALL`}
                 onClick={handleDeleteAllChoicesClick}
               />
               (ALL)
-            </ChoiceItemWrapper>
+            </DeleteAllWrapper>
           )}
         </ChoiceListTitle>
-        <ChoiceListScrollWrapper>{renderList}</ChoiceListScrollWrapper>
+        <ChoiceListScrollWrapper>{choiceList}</ChoiceListScrollWrapper>
       </ChoiceListWrapper>
     </>
   );

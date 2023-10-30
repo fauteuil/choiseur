@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 import { useURL } from '../hooks/useURL';
-import { type MouseEvent, useContext, useMemo } from 'react';
+import { type MouseEvent, useContext, useMemo, useCallback, useEffect } from 'react';
 import { randomInt } from '@dmhtoo/random-int';
 import randomRgba from 'random-rgba';
 import { useState } from 'react';
@@ -75,7 +75,7 @@ const DEFAULT_TEXT = {
 
 export function Details() {
   const { choices } = useURL();
-  const [randomIndex, setRandomIndex] = useState(0);
+  const [randomIndex, setRandomIndex] = useState(-1);
   const [isChoosing, setIsChoosing] = useState(false);
   const [randomColor, setRandomColor] = useState(randomRgba(47));
 
@@ -87,8 +87,8 @@ export function Details() {
         choices.length === 0
           ? DEFAULT_TEXT.addChoice
           : choices?.length === 1
-          ? DEFAULT_TEXT.needs2Choices
-          : choices[randomIndex]
+            ? DEFAULT_TEXT.needs2Choices
+            : choices[randomIndex]
       ),
     [choices, randomIndex]
   );
@@ -97,11 +97,14 @@ export function Details() {
     choices.length > 1 ? DEFAULT_TEXT.makeAChoice : currentChoice
   );
 
-  const shuffle = () => {
-    setIsChoosing(true);
-    setRandomIndex(randomInt(0, choices.length - 1));
+  const shuffle = useCallback((initialShuffle = false) => {
+    if (!initialShuffle) setIsChoosing(true);
+    const rando = randomInt(0, choices.length - 1);
+    console.log('randomIndex - on click', rando);
+    setRandomIndex(rando);
     setRandomColor(randomRgba(37));
-  };
+    console.log('randomIndex - after setState', randomIndex);
+  }, [choices.length, randomIndex]);
 
   const handleShuffle = async (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -114,6 +117,12 @@ export function Details() {
     setSelectedChoice(currentChoice);
     incrementChoiceCount(currentChoice);
   };
+
+  useEffect(() => {
+    if (choices.length >= 2 && randomIndex === -1) {
+      shuffle(true);
+    }
+  }, [choices.length, randomIndex, shuffle]);
 
   return (
     <>
