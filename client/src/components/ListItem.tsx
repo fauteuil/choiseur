@@ -1,12 +1,17 @@
-import type { MouseEvent } from "react";
+import { useState, type MouseEvent, useCallback } from "react";
 import styled from "styled-components";
 import type { Choice } from "./ChoiceContext";
-import { Trash } from "./icons/Trash";
+import { Delete } from "./icons/Delete";
+import { EditInPlaceText } from "./edit-in-place-text/EditInPlaceText";
+import { useURL } from "../hooks/useURL";
 
 const ChoiceItemWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`;
+const ChoiceLabelAndScoreWrapper = styled(ChoiceItemWrapper)`
+  justify-content:flex-start;
 `;
 
 export const DeleteIcon = styled.span`
@@ -16,27 +21,49 @@ export const DeleteIcon = styled.span`
 `;
 
 export function ListItem(
-  choice: Choice,
-  choiceId: string,
-  handleClick: (choice: string) => (event: MouseEvent<HTMLElement>) => void
+  { choice }: { choice: Choice },
 ) {
-  const choiceDisplay = choice.label;
-  const countDisplay = `${choice.count || 0}`;
+  const { removeChoice, updateChoice } = useURL();
+
+  const { count, id: choiceId, label } = choice;
+  const [showChoiceForm, setShowChoiceForm] = useState(!choiceId);
+  const [editedChoice, setEditedChoice] = useState(label);
+
+
+  const countDisplay = `${count || 0}`;
+
+  const handleDeleteChoiceClick = useCallback(
+    (choice: string) => (event: MouseEvent<HTMLElement>) => {
+      event.preventDefault();
+      removeChoice(choice);
+    },
+    [removeChoice]
+  );
+
+  const handleSaveChoice = useCallback(
+    (newChoice: string) => (event: MouseEvent<HTMLElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
+      updateChoice(editedChoice, newChoice);
+      console.log('handleSaveChoice() - save ', newChoice);
+    },
+    [editedChoice, updateChoice]
+  );
+
   return (
     <ChoiceItemWrapper data-testid={choiceId} key={choiceId}>
-      <span title={countDisplay}>
-        {choiceDisplay}
+      <ChoiceLabelAndScoreWrapper>
+        <EditInPlaceText focusText={showChoiceForm} handleSave={handleSaveChoice} text={label} />
         ({countDisplay}) {choice.isWinner ? '*' : ''}
-      </span>
-
-      <DeleteIcon
-        title={`delete ${choiceDisplay}`}
-      >
-        <Trash
-          title={`delete ${choiceDisplay}`}
-          onClick={handleClick(choiceId)}
-        />
-      </DeleteIcon>
-    </ChoiceItemWrapper>
+        <DeleteIcon
+          title={`delete ${label}`}
+        >
+        </DeleteIcon>
+      </ChoiceLabelAndScoreWrapper>
+      <Delete
+        title={`delete ${label}`}
+        onClick={handleDeleteChoiceClick(choiceId)}
+      />
+    </ChoiceItemWrapper >
   );
 }

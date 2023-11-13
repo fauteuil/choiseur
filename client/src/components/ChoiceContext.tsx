@@ -38,6 +38,12 @@ const simpleReducer = (winningChoiceIdState: string, choiceId: string) => {
   return winningChoiceIdState;
 };
 
+/**
+ * Force a Context refresh by updating the timestamp upon every choice click
+ * @param {number} timestampReducerState
+ * @param {number} timestamp
+ * @returns {number} timestampReducerState
+ */
 const clickTimestampReducer = (
   timestampReducerState: number,
   timestamp: number

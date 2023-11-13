@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 import { type ChangeEvent, type FormEvent, useRef, useState, useEffect } from 'react';
+import { useURL } from '../../hooks/useURL';
 
-import { useURL } from '../hooks/useURL';
 
 interface TopicAddFormElements extends HTMLFormControlsCollection {
   name: HTMLInputElement;
@@ -12,10 +12,10 @@ interface TopicAddForm extends HTMLFormElement {
   elements: TopicAddFormElements;
 }
 
-const AddTopicForm = styled.form`
+const EditInPlaceInputForm = styled.form`
   display: flex;
 `;
-const AddTopicButton = styled.button`
+const EditInPlaceInputButton = styled.button`
   background-color: rgb(194 205 216);
   border: solid 0.0625rem #fff;
   border-radius: 0.25rem;
@@ -23,7 +23,7 @@ const AddTopicButton = styled.button`
   font-weight: bold;
   margin: 0.25rem;
 `;
-const AddTopicInput = styled.input`
+const EditInput = styled.input`
   background-color: rgb(194 205 216);
   border-radius: 0.25rem;
   border: solid #fff 0.0625rem;
@@ -34,8 +34,9 @@ const AddTopicInput = styled.input`
   width: 12rem;
 `;
 
-export function AddTopic({ focusText }: { focusText: boolean }) {
-  const { addTopic, topic } = useURL();
+export function EditInPlaceInput({ focusText }: { focusText: boolean }) {
+  // const { addTopic, topic } = useURL();
+  const { addChoice, choices } = useURL();
   const [newTopic, setNewTopic] = useState(topic);
   const refTopicInput = useRef<HTMLInputElement>(null);
 
@@ -45,7 +46,7 @@ export function AddTopic({ focusText }: { focusText: boolean }) {
     setNewTopic(inputValue);
   };
 
-  const handleAddTopic = (event: FormEvent<TopicAddForm>) => {
+  const handleEditInPlace = (event: FormEvent<TopicAddForm>) => {
     event.preventDefault();
     addTopic(newTopic);
   };
@@ -59,16 +60,16 @@ export function AddTopic({ focusText }: { focusText: boolean }) {
 
   return (
     <>
-      <AddTopicForm onSubmit={handleAddTopic}>
-        <AddTopicInput
+      <EditInPlaceInputForm onSubmit={handleEditInPlace}>
+        <EditInput
           ref={refTopicInput}
           type='text'
           onChange={handleChange}
           placeholder={'add a topic...'}
           value={newTopic}
         />
-        <AddTopicButton type='submit'>+</AddTopicButton>
-      </AddTopicForm>
+        <EditInPlaceInputButton type='submit'>+</EditInPlaceInputButton>
+      </EditInPlaceInputForm>
     </>
   );
 }

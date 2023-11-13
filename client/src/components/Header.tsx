@@ -1,8 +1,5 @@
 import styled, { css } from 'styled-components';
 
-// import { v4 as uuidv4 } from 'uuid';
-// import('dotenv').config();
-
 import { useState } from 'react';
 import { AddTopic } from './AddTopic';
 import { useURL } from '../hooks/useURL';
@@ -43,8 +40,8 @@ const Ul = styled.ul`
     display: none;
 
     ${({ showMenu }: { showMenu: boolean }) =>
-      showMenu &&
-      css`
+    showMenu &&
+    css`
         display: flex;
         flex-direction: column;
         position: absolute;
@@ -55,25 +52,6 @@ const Ul = styled.ul`
       `}
   }
 `;
-
-// const Li = styled.li`
-//   margin-right: 1.25rem;
-
-//   @media screen and (max-width: 48rem) {
-//     margin-right: 0;
-//   }
-// `;
-
-// const Link = styled.span`
-//   color: #fff;
-//   text-decoration: none;
-//   padding: 0.625rem;
-//   display: block;
-
-//   @media screen and (max-width: 48rem) {
-//     padding: 0.625rem;
-//   }
-// `;
 
 const TopicWrapper = styled.div`
   padding: 0 1rem;
@@ -132,7 +110,7 @@ export function Header() {
         <>
           <TopicWrapper>
             {showTopicForm || !topic ? (
-              <AddTopic focusText={!!topic}/>
+              <AddTopic focusText={!!topic} />
             ) : (
               <span onClick={handleTopicClick}>{topic}</span>
             )}

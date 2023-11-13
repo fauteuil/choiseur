@@ -5,6 +5,7 @@ import { randomInt } from '@dmhtoo/random-int';
 import randomRgba from 'random-rgba';
 import { useState } from 'react';
 import { ChoiceContext } from './ChoiceContext';
+import { DEFAULT_NUMERIC_VALUE } from '../constants';
 
 interface ChoiceButtonProps {
   bgColor: string;
@@ -75,7 +76,7 @@ const DEFAULT_TEXT = {
 
 export function Details() {
   const { choices } = useURL();
-  const [randomIndex, setRandomIndex] = useState(-1);
+  const [randomIndex, setRandomIndex] = useState(DEFAULT_NUMERIC_VALUE);
   const [isChoosing, setIsChoosing] = useState(false);
   const [randomColor, setRandomColor] = useState(randomRgba(47));
 
@@ -119,7 +120,7 @@ export function Details() {
   };
 
   useEffect(() => {
-    if (choices.length >= 2 && randomIndex === -1) {
+    if (choices.length >= 2 && randomIndex === DEFAULT_NUMERIC_VALUE) {
       shuffle(true);
     }
   }, [choices.length, randomIndex, shuffle]);

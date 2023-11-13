@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { type MouseEvent, useCallback, useContext, useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 
 import { ChoiceContext } from './ChoiceContext';
 import { useURL } from '../hooks/useURL';
 import { AddChoice } from './AddChoice';
-import { Trash } from './icons/Trash';
+import { Delete } from './icons/Delete';
 import { ListItem } from './ListItem';
 
 const ChoiceListTitle = styled.div`
@@ -19,8 +19,6 @@ const ChoiceListWrapper = styled.div`
   flex-direction: column;
   padding: 0.5rem 1rem;
 `;
-
-
 
 const DeleteAllWrapper = styled.div`
   display: flex;
@@ -38,7 +36,7 @@ const ChoiceListScrollWrapper = styled.div`
 `;
 
 export function List() {
-  const { choices, removeAllChoices, removeChoice } = useURL();
+  const { choices, removeAllChoices } = useURL();
 
   const handleDeleteAllChoicesClick = () => {
     removeAllChoices();
@@ -46,24 +44,18 @@ export function List() {
 
   const { choiceMap } = useContext(ChoiceContext);
 
-  const handleDeleteChoiceClick = useCallback(
-    (choice: string) => (event: MouseEvent<HTMLElement>) => {
-      event.preventDefault();
-      removeChoice(choice);
-    },
-    [removeChoice]
-  );
 
-
-  const choiceList = useMemo(() => {
+  // const renderChoiceList = useMemo(() => {
+  const renderChoiceList = () => {
     const listItems: JSX.Element[] = [];
-    choiceMap.forEach((choice, choiceId) => {
+    choiceMap.forEach((choice, index) => {
       if (choice) {
-        listItems.push(ListItem(choice, choiceId, handleDeleteChoiceClick));
+        listItems.push(<ListItem choice={choice} key={`${choice}-${index}`} />);
       }
     });
     return listItems;
-  }, [choiceMap, handleDeleteChoiceClick]);
+  };
+  // }, [choiceMap]);
 
   return (
     <>
@@ -73,7 +65,7 @@ export function List() {
           <span>{` `}</span>
           {!choices?.length ? null : (
             <DeleteAllWrapper title={`delete ALL`}>
-              <Trash
+              <Delete
                 title={`delete ALL`}
                 onClick={handleDeleteAllChoicesClick}
               />
@@ -81,7 +73,7 @@ export function List() {
             </DeleteAllWrapper>
           )}
         </ChoiceListTitle>
-        <ChoiceListScrollWrapper>{choiceList}</ChoiceListScrollWrapper>
+        <ChoiceListScrollWrapper>{renderChoiceList()}</ChoiceListScrollWrapper>
       </ChoiceListWrapper>
     </>
   );

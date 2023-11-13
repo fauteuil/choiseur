@@ -7,28 +7,36 @@ export function useURL() {
     query,
   ]);
   const topicRaw = valueByKey('topic').trim();
+
   const topic = topicRaw ? decodeURIComponent(topicRaw) : '';
+
   const choices: string[] =
     valueByKey('choices')
       .trim()
       .split(',')
       .map((opt) => decodeURIComponent(opt))
       .filter((opt) => opt !== '') || [];
+
   const addChoice = (choice: string) => {
     choices.push(encodeURIComponent(choice));
     query.set('choices', choices.join(','));
     window.location.search = query.toString();
   };
+  const updateChoice = (previousChoice: string, newChoice: string) => {
+    const newChoices = choices.map((opt) => opt !== previousChoice ? opt : newChoice);
+    query.set('choices', newChoices.join(','));
+    window.location.search = query.toString();
+  };
   const addTopic = useCallback((topic = '') => {
     const newTopic = topic.trim();
     const currentTopic = query.get('topic');
-    if(currentTopic !== newTopic){
+    if (currentTopic !== newTopic) {
       query.set('topic', encodeURIComponent(newTopic));
       window.location.search = query.toString();
     }
-  },[query]);
+  }, [query]);
 
-  const removeChoice = (choice: string) => {
+  const removeChoice = (choice: string, refresh = true) => {
     const newChoices = choices.filter((opt) => opt !== choice);
     query.set('choices', newChoices.join(','));
     window.location.search = query.toString();
@@ -45,6 +53,7 @@ export function useURL() {
     query,
     removeAllChoices,
     removeChoice,
+    updateChoice,
     topic,
     valueByKey,
   };
