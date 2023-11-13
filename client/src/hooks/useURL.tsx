@@ -36,7 +36,7 @@ export function useURL() {
     }
   }, [query]);
 
-  const removeChoice = (choice: string, refresh = true) => {
+  const removeChoice = (choice: string) => {
     const newChoices = choices.filter((opt) => opt !== choice);
     query.set('choices', newChoices.join(','));
     window.location.search = query.toString();

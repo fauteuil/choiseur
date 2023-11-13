@@ -26,8 +26,8 @@ export function ListItem(
   const { removeChoice, updateChoice } = useURL();
 
   const { count, id: choiceId, label } = choice;
-  const [showChoiceForm, setShowChoiceForm] = useState(!choiceId);
-  const [editedChoice, setEditedChoice] = useState(label);
+  const [showChoiceForm] = useState(!choiceId);
+  const [editedChoice] = useState(label);
 
 
   const countDisplay = `${count || 0}`;

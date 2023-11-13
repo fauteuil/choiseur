@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 
 import { ChoiceContext } from './ChoiceContext';
 import { useURL } from '../hooks/useURL';
