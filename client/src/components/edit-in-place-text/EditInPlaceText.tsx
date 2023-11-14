@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { type ChangeEvent, useRef, useState, useEffect, type MouseEvent } from 'react';
+import { type ChangeEvent, useRef, useState, useEffect, type MouseEvent, useCallback, type KeyboardEvent } from 'react';
 import { Save } from "../icons/Save";
 
 const EditTextWrapper = styled.div`
@@ -30,24 +30,46 @@ const EditTextInput = styled.input`
 
 interface EditInPlaceTextProps {
   focusText: boolean;
-  text: string;
-  handleSave: (choice: string) => (event: MouseEvent<HTMLElement>) => void
+  initialText: string;
+  handleSave: (choice: string) => void;
 }
 
-export function EditInPlaceText({ focusText, handleSave, text = '' }: EditInPlaceTextProps) {
+export function EditInPlaceText({ focusText, handleSave, initialText = '' }: EditInPlaceTextProps) {
   const [focus, setFocus] = useState(focusText);
-  const [textValue, setTextValue] = useState(text);
+  const [textValue, setTextValue] = useState(initialText);
   const [showEditTextForm, setShowEditTextForm] = useState(!textValue);
   const refTextInput = useRef<HTMLInputElement>(null);
+
+  const handleSaveChoice = useCallback(
+    (newChoice: string) => (event: MouseEvent<HTMLElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
+      handleSave(newChoice);
+    }, []);
 
   const handleEditTextClick = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     event.preventDefault();
     setShowEditTextForm(true);
     setFocus(true);
-    if (refTextInput.current) {
+    if (refTextInput.current)
       refTextInput.current?.focus();
-      refTextInput.current?.select();
+    refTextInput.current?.select();
+  };
+
+  const handleKeyPress = (event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const lastKey = event.key;
+    // persist value on 'Enter'
+    if (lastKey === 'Enter') {
+      handleSave(refTextInput.current?.value || '');
+      setShowEditTextForm(false);
+    }
+    // reset value, hide input on 'Esc'
+    if (lastKey === 'Escape') {
+      setShowEditTextForm(false);
+      handleSave(initialText);
     }
   };
 
@@ -73,11 +95,12 @@ export function EditInPlaceText({ focusText, handleSave, text = '' }: EditInPlac
               ref={refTextInput}
               type='text'
               onChange={handleInputChange}
+              onKeyUp={handleKeyPress}
               placeholder={'add a topic...'}
               value={textValue} />
             <Save
-              title={`delete ALL`}
-              onClick={handleSave(refTextInput.current?.value || '')}
+              title={`Save`}
+              onClick={handleSaveChoice(refTextInput.current?.value || '')}
             />
           </>
         ) : (

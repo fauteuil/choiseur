@@ -40,20 +40,17 @@ export function ListItem(
     [removeChoice]
   );
 
-  const handleSaveChoice = useCallback(
-    (newChoice: string) => (event: MouseEvent<HTMLElement>) => {
-      event.preventDefault();
-      event.stopPropagation();
-      updateChoice(editedChoice, newChoice);
-      console.log('handleSaveChoice() - save ', newChoice);
-    },
+  const handleSaveChoice = useCallback((newChoice: string) => {
+    updateChoice(editedChoice, newChoice);
+    console.log('handleSaveChoice() - save ', newChoice);
+  },
     [editedChoice, updateChoice]
   );
 
   return (
     <ChoiceItemWrapper data-testid={choiceId} key={choiceId}>
       <ChoiceLabelAndScoreWrapper>
-        <EditInPlaceText focusText={showChoiceForm} handleSave={handleSaveChoice} text={label} />
+        <EditInPlaceText focusText={showChoiceForm} handleSave={handleSaveChoice} initialText={label} />
         ({countDisplay}) {choice.isWinner ? '*' : ''}
         <DeleteIcon
           title={`delete ${label}`}
